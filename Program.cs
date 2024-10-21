@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Sportify_solution_app.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ClassesContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ClassesContext") ?? throw new InvalidOperationException("Connection string 'ClassesContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddDbContext<SportifyDbContext>(options =>
