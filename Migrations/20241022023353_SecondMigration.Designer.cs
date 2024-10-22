@@ -12,7 +12,7 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    [Migration("20241021021806_SecondMigration")]
+    [Migration("20241022023353_SecondMigration")]
     partial class SecondMigration
     {
         /// <inheritdoc />

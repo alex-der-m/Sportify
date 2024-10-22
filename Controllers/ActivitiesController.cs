@@ -6,15 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
-using Sportify_solution_app.Models;
 
 namespace Sportify_Back.Controllers
 {
     public class ActivitiesController : Controller
     {
-        private readonly ActivitiesContext _context;
+        private readonly SportifyDbContext _context;
 
-        public ActivitiesController(ActivitiesContext context)
+        public ActivitiesController(SportifyDbContext context)
         {
             _context = context;
         }

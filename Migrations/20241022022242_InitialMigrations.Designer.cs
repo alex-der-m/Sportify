@@ -12,8 +12,8 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    [Migration("20241021232427_ThirdMigration")]
-    partial class ThirdMigration
+    [Migration("20241022022242_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
