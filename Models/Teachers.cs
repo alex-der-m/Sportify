@@ -16,22 +16,25 @@ namespace Sportify_back.Models
         [Column("IdTeachers")]
         public int Id { get; set; }
 
-        [Required]
+        [Required  (ErrorMessage= "El nombre del profesor es obligatorio")]
         public string Name { get; set; }
 
-        [Required]
+        [Required  (ErrorMessage= "El DNI es obligatorio")]
+       
         public int Dni { get; set; }
 
-        [Required]
+        [Required  (ErrorMessage= "Debe ingresar un correo electrónico válido")]
         public string Mail { get; set; }
-
+        [Required  (ErrorMessage= "El número de teléfono es obligatorio")]
         public int Phone { get; set; }
-
+        [Required  (ErrorMessage= "El domicilio es obligatorio")]
         public string Address { get; set; }
 
-        public List<Activities> Activities { get; set; }
+        public Activities? Activities { get; set; } 
 
-        public List<Classes> Classes { get; set; }
+        [Display(Name ="Activities")]
+        public int  ActivitiesId { get; set; }
+        public List<Classes> Classes { get; set; } = new List<Classes>();
         public bool Active { get; set; }
         
     }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sportify_Back.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,11 +94,18 @@ namespace Sportify_Back.Migrations
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivitiesId = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.IdTeachers);
+                    table.ForeignKey(
+                        name: "FK_Teachers_Activities_ActivitiesId",
+                        column: x => x.ActivitiesId,
+                        principalTable: "Activities",
+                        principalColumn: "IdActivity",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,30 +191,6 @@ namespace Sportify_Back.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActivitiesTeachers",
-                columns: table => new
-                {
-                    ActivitiesId = table.Column<int>(type: "int", nullable: false),
-                    TeachersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActivitiesTeachers", x => new { x.ActivitiesId, x.TeachersId });
-                    table.ForeignKey(
-                        name: "FK_ActivitiesTeachers_Activities_ActivitiesId",
-                        column: x => x.ActivitiesId,
-                        principalTable: "Activities",
-                        principalColumn: "IdActivity",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivitiesTeachers_Teachers_TeachersId",
-                        column: x => x.TeachersId,
-                        principalTable: "Teachers",
-                        principalColumn: "IdTeachers",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Classes",
                 columns: table => new
                 {
@@ -216,7 +199,7 @@ namespace Sportify_Back.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActivityId = table.Column<int>(type: "int", nullable: false),
                     Sched = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: false),
+                    TeachersId = table.Column<int>(type: "int", nullable: false),
                     Quota = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -230,8 +213,8 @@ namespace Sportify_Back.Migrations
                         principalColumn: "IdActivity",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Classes_Teachers_TeacherId",
-                        column: x => x.TeacherId,
+                        name: "FK_Classes_Teachers_TeachersId",
+                        column: x => x.TeachersId,
                         principalTable: "Teachers",
                         principalColumn: "IdTeachers",
                         onDelete: ReferentialAction.Cascade);
@@ -291,19 +274,14 @@ namespace Sportify_Back.Migrations
                 column: "PlansId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivitiesTeachers_TeachersId",
-                table: "ActivitiesTeachers",
-                column: "TeachersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Classes_ActivityId",
                 table: "Classes",
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classes_TeacherId",
+                name: "IX_Classes_TeachersId",
                 table: "Classes",
-                column: "TeacherId");
+                column: "TeachersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassesProgrammings_ProgrammingsId",
@@ -321,6 +299,11 @@ namespace Sportify_Back.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Teachers_ActivitiesId",
+                table: "Teachers",
+                column: "ActivitiesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_PlanId",
                 table: "Users",
                 column: "PlanId");
@@ -336,9 +319,6 @@ namespace Sportify_Back.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ActivitiesPlans");
-
-            migrationBuilder.DropTable(
-                name: "ActivitiesTeachers");
 
             migrationBuilder.DropTable(
                 name: "ClassesProgrammings");
@@ -362,9 +342,6 @@ namespace Sportify_Back.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Activities");
-
-            migrationBuilder.DropTable(
                 name: "Teachers");
 
             migrationBuilder.DropTable(
@@ -372,6 +349,9 @@ namespace Sportify_Back.Migrations
 
             migrationBuilder.DropTable(
                 name: "Profiles");
+
+            migrationBuilder.DropTable(
+                name: "Activities");
         }
     }
 }

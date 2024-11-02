@@ -37,21 +37,6 @@ namespace Sportify_Back.Migrations
                     b.ToTable("ActivitiesPlans");
                 });
 
-            modelBuilder.Entity("ActivitiesTeachers", b =>
-                {
-                    b.Property<int>("ActivitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeachersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ActivitiesId", "TeachersId");
-
-                    b.HasIndex("TeachersId");
-
-                    b.ToTable("ActivitiesTeachers");
-                });
-
             modelBuilder.Entity("ClassesProgrammings", b =>
                 {
                     b.Property<int>("ClassesId")
@@ -147,14 +132,14 @@ namespace Sportify_Back.Migrations
                     b.Property<DateTime>("Sched")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int>("TeachersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("TeachersId");
 
                     b.ToTable("Classes");
                 });
@@ -259,6 +244,9 @@ namespace Sportify_Back.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ActivitiesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -278,6 +266,8 @@ namespace Sportify_Back.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActivitiesId");
 
                     b.ToTable("Teachers");
                 });
@@ -349,21 +339,6 @@ namespace Sportify_Back.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ActivitiesTeachers", b =>
-                {
-                    b.HasOne("Sportify_back.Models.Activities", null)
-                        .WithMany()
-                        .HasForeignKey("ActivitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sportify_back.Models.Teachers", null)
-                        .WithMany()
-                        .HasForeignKey("TeachersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ClassesProgrammings", b =>
                 {
                     b.HasOne("Sportify_back.Models.Classes", null)
@@ -419,13 +394,24 @@ namespace Sportify_Back.Migrations
 
                     b.HasOne("Sportify_back.Models.Teachers", "Teachers")
                         .WithMany("Classes")
-                        .HasForeignKey("TeacherId")
+                        .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Activities");
 
                     b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("Sportify_back.Models.Teachers", b =>
+                {
+                    b.HasOne("Sportify_back.Models.Activities", "Activity")
+                        .WithMany("Teachers")
+                        .HasForeignKey("ActivitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Users", b =>
@@ -450,6 +436,8 @@ namespace Sportify_Back.Migrations
             modelBuilder.Entity("Sportify_back.Models.Activities", b =>
                 {
                     b.Navigation("Classes");
+
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Plans", b =>

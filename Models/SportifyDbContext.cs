@@ -21,9 +21,9 @@ namespace Sportify_back.Models{
 
         public DbSet<Programmings> Programmings {get; set;}
 
-        public DbSet<Teachers> Teachers {get; set;}
-
         public DbSet<Users> Users {get; set;}
+
+        public DbSet<Teachers> Teachers {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
                     

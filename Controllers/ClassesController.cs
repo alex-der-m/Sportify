@@ -9,23 +9,23 @@ using Sportify_back.Models;
 
 namespace Sportify_Back.Controllers
 {
-    public class TeachersController : Controller
+    public class ClassesController : Controller
     {
         private readonly SportifyDbContext _context;
 
-        public TeachersController(SportifyDbContext context)
+        public ClassesController(SportifyDbContext context)
         {
             _context = context;
         }
 
-        // GET: Teachers
+        // GET: Classes
         public async Task<IActionResult> Index()
         {
-            var sportifyDbContext = _context.Teachers.Include(t => t.Activities);
+            var sportifyDbContext = _context.Classes.Include(c => c.Activities).Include(c => c.Teachers);
             return View(await sportifyDbContext.ToListAsync());
         }
 
-        // GET: Teachers/Details/5
+        // GET: Classes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,43 +33,45 @@ namespace Sportify_Back.Controllers
                 return NotFound();
             }
 
-            var teachers = await _context.Teachers
-                .Include(t => t.Activities)
+            var classes = await _context.Classes
+                .Include(c => c.Activities)
+                .Include(c => c.Teachers)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (teachers == null)
+            if (classes == null)
             {
                 return NotFound();
             }
 
-            //ViewData["Activities"] = new SelectList(_context.Activities, "Id", "NameActivity");
-            return View(teachers);
+            return View(classes);
         }
 
-        // GET: Teachers/Create
+        // GET: Classes/Create
         public IActionResult Create()
         {
-            ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity");
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "Id", "NameActivity");
+            ViewData["TeachersId"] = new SelectList(_context.Teachers, "Id", "Name");
             return View();
         }
 
-        // POST: Teachers/Create
+        // POST: Classes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Dni,Mail,Phone,Address,ActivitiesId,Active")] Teachers teachers)
+        public async Task<IActionResult> Create([Bind("Id,Name,ActivityId,Sched,TeachersId,Quota,Active")] Classes classes)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teachers);
+                _context.Add(classes);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-           ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity",  teachers.ActivitiesId);
-            return View(teachers);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "Id", "NameActivity", classes.ActivityId);
+            ViewData["TeachersId"] = new SelectList(_context.Teachers, "Id", "Name", classes.TeachersId);
+            return View(classes);
         }
 
-        // GET: Teachers/Edit/5
+        // GET: Classes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +79,24 @@ namespace Sportify_Back.Controllers
                 return NotFound();
             }
 
-            var teachers = await _context.Teachers.FindAsync(id);
-            if (teachers == null)
+            var classes = await _context.Classes.FindAsync(id);
+            if (classes == null)
             {
                 return NotFound();
             }
-            ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity", teachers.ActivitiesId);
-            return View(teachers);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "Id", "NameActivity", classes.ActivityId);
+            ViewData["TeachersId"] = new SelectList(_context.Teachers, "Id", "Name", classes.TeachersId);
+            return View(classes);
         }
 
-        // POST: Teachers/Edit/5
+        // POST: Classes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Dni,Mail,Phone,Address,ActivitiesId,Active")] Teachers teachers)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ActivityId,Sched,TeachersId,Quota,Active")] Classes classes)
         {
-            if (id != teachers.Id)
+            if (id != classes.Id)
             {
                 return NotFound();
             }
@@ -102,12 +105,12 @@ namespace Sportify_Back.Controllers
             {
                 try
                 {
-                    _context.Update(teachers);
+                    _context.Update(classes);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeachersExists(teachers.Id))
+                    if (!ClassesExists(classes.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +121,12 @@ namespace Sportify_Back.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity", teachers.ActivitiesId);
-            return View(teachers);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "Id", "NameActivity", classes.ActivityId);
+            ViewData["TeachersId"] = new SelectList(_context.Teachers, "Id", "Name", classes.TeachersId);
+            return View(classes);
         }
 
-        // GET: Teachers/Delete/5
+        // GET: Classes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +134,36 @@ namespace Sportify_Back.Controllers
                 return NotFound();
             }
 
-            var teachers = await _context.Teachers
-                .Include(t => t.Activities)
+            var classes = await _context.Classes
+                .Include(c => c.Activities)
+                .Include(c => c.Teachers)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (teachers == null)
+            if (classes == null)
             {
                 return NotFound();
             }
 
-            return View(teachers);
+            return View(classes);
         }
 
-        // POST: Teachers/Delete/5
+        // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var teachers = await _context.Teachers.FindAsync(id);
-            if (teachers != null)
+            var classes = await _context.Classes.FindAsync(id);
+            if (classes != null)
             {
-                _context.Teachers.Remove(teachers);
+                _context.Classes.Remove(classes);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeachersExists(int id)
+        private bool ClassesExists(int id)
         {
-            return _context.Teachers.Any(e => e.Id == id);
+            return _context.Classes.Any(e => e.Id == id);
         }
     }
 }

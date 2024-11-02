@@ -22,14 +22,12 @@ namespace Sportify_back.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public List<Plans> Plans { get; set; }
+        public List<Plans> Plans { get; set; } = new List<Plans>();
 
-        [Required]
-        public List<Teachers> Teachers { get; set; }
+        public List<Teachers> Teachers { get; set; } = new List<Teachers>();
 
-        [Required]
-        public List<Classes> Classes { get; set; }
+        public List<Classes> Classes { get; set; } = new List<Classes>();
+
 
         public bool Active { get; set; }
     }

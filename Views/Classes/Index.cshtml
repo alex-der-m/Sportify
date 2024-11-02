@@ -1,37 +1,34 @@
-@model IEnumerable<Sportify_back.Models.Teachers>
+@model IEnumerable<Sportify_back.Models.Classes>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Listado de Profesores</h1>
+<h1>Listado de Clases</h1>
 
 <p>
-    <a asp-action="Create">Crear nuevo profesor</a>
+    <a asp-action="Create">Crear nueva clase</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-               Nombre y Apellido
-            </th>
-            <th>
-                DNI
-            </th>
-            <th>
-               Correo electrónico
-            </th>
-            <th>
-               Teléfono
-            </th>
-            <th>
-                Dirección
+               Clase
             </th>
             <th>
                 Actividades
             </th>
             <th>
-                Activa
+                Día y horario
+            </th>
+            <th>
+               Profesor
+            </th>
+            <th>
+               Cupo
+            </th>
+            <th>
+               Activa
             </th>
             <th></th>
         </tr>
@@ -43,26 +40,23 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dni)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Activities.NameActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sched)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teachers.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quota)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Active)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ver Detalle</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Ver detalle</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
