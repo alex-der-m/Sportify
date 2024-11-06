@@ -33,10 +33,10 @@ namespace Sportify_back.Models
 
         public string Address { get; set; }
 
-        [Required]
+        [ForeignKey("ProfileId")] //Este era required solo
         public Profiles Profile { get; set; }
 
-        [ForeignKey("Profiles")]
+        [Required] // y este era foreingKey (lo di vuelta)
         public int  ProfileId { get; set; }
 
         [Required]

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Sportify_back.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +12,29 @@ builder.Services.AddDbContext<SportifyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<SportifyDbContext>();
+// Configuramos Identity con la fábrica de claims personalizada
+builder.Services.AddDefaultIdentity<IdentityUser>
+    (options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<SportifyDbContext>()
+    .AddClaimsPrincipalFactory<AdditionalUserClaimsPrincipalFactory>(); // Agregamos aca la fábrica de claims aquí
+
 builder.Services.AddControllersWithViews();
+
+// Configurar la autenticación por cookies // (para no generar un controller para el login, que seria otra opcion)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+}).AddCookie();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim("Profile", "Administrador")); // Verifica el claim "Profile" para ser "Administrador"
+});
+
+
 
 var app = builder.Build();
 
@@ -34,6 +55,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();//Agregamos la autenticacion
 app.UseAuthorization();
 
 app.MapControllerRoute(
