@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Sportify_back.Models{
 
-    public class SportifyDbContext:DbContext{
+    public class SportifyDbContext: IdentityDbContext <IdentityUser>
+    //ahora la db context es de tipo "IdentityDbContext <IdentityUser>"
+    {
 
-        public SportifyDbContext(DbContextOptions<SportifyDbContext> options):base(options){
-
+        public SportifyDbContext(DbContextOptions<SportifyDbContext> options):base(options)
+        {
         }
 
         public DbSet<Activities> Activities {get; set;}
@@ -26,7 +30,13 @@ namespace Sportify_back.Models{
         public DbSet<Teachers> Teachers {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
+              base.OnModelCreating(modelBuilder);
                     
+                      modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+    {
+        entity.HasKey(login => new { login.LoginProvider, login.ProviderKey });
+        entity.ToTable("AspNetUserLogins");
+    });
         }
     }
 }

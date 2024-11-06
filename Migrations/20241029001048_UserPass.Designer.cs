@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sportify_back.Models;
 
@@ -11,9 +12,11 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    partial class SportifyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029001048_UserPass")]
+    partial class UserPass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,21 @@ namespace Sportify_Back.Migrations
                     b.HasIndex("PlansId");
 
                     b.ToTable("ActivitiesPlans");
+                });
+
+            modelBuilder.Entity("ActivitiesTeachers", b =>
+                {
+                    b.Property<int>("ActivitiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ActivitiesId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("ActivitiesTeachers");
                 });
 
             modelBuilder.Entity("ClassesProgrammings", b =>
@@ -334,14 +352,14 @@ namespace Sportify_Back.Migrations
                     b.Property<DateTime>("Sched")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TeachersId")
+                    b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("TeachersId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Classes");
                 });
@@ -446,9 +464,6 @@ namespace Sportify_Back.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ActivitiesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -468,8 +483,6 @@ namespace Sportify_Back.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActivitiesId");
 
                     b.ToTable("Teachers");
                 });
@@ -537,6 +550,21 @@ namespace Sportify_Back.Migrations
                     b.HasOne("Sportify_back.Models.Plans", null)
                         .WithMany()
                         .HasForeignKey("PlansId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ActivitiesTeachers", b =>
+                {
+                    b.HasOne("Sportify_back.Models.Activities", null)
+                        .WithMany()
+                        .HasForeignKey("ActivitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sportify_back.Models.Teachers", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -647,24 +675,13 @@ namespace Sportify_Back.Migrations
 
                     b.HasOne("Sportify_back.Models.Teachers", "Teachers")
                         .WithMany("Classes")
-                        .HasForeignKey("TeachersId")
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Activities");
 
                     b.Navigation("Teachers");
-                });
-
-            modelBuilder.Entity("Sportify_back.Models.Teachers", b =>
-                {
-                    b.HasOne("Sportify_back.Models.Activities", "Activity")
-                        .WithMany("Teachers")
-                        .HasForeignKey("ActivitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Users", b =>
@@ -689,8 +706,6 @@ namespace Sportify_Back.Migrations
             modelBuilder.Entity("Sportify_back.Models.Activities", b =>
                 {
                     b.Navigation("Classes");
-
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Plans", b =>
