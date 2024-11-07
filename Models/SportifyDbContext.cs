@@ -31,12 +31,18 @@ namespace Sportify_back.Models{
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
               base.OnModelCreating(modelBuilder);
+              
+              modelBuilder.Entity<Classes>()
+                .HasOne(c => c.Teachers)
+                .WithMany(t => t.Classes)
+                .HasForeignKey(c => c.TeachersId)
+                .OnDelete(DeleteBehavior.Restrict); 
                     
                       modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
-    {
-        entity.HasKey(login => new { login.LoginProvider, login.ProviderKey });
-        entity.ToTable("AspNetUserLogins");
-    });
+            {
+                entity.HasKey(login => new { login.LoginProvider, login.ProviderKey });
+                entity.ToTable("AspNetUserLogins");
+            });
         }
     }
 }
