@@ -1,3 +1,4 @@
+/* Global Styles */
 html {
   font-size: 14px;
 }
@@ -8,15 +9,140 @@ html {
   }
 }
 
+html, body {
+  height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
+  margin: 0; /* Elimina márgenes */
+  padding: 0; /* Elimina rellenos */
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Flexbox con columna, para que footer quede al final */
+}
+
+main {
+  flex-grow: 1; /* Esto asegura que el contenido principal ocupe todo el espacio disponible */
+}
+
+/* Buttons and Focus */
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  width: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Form Styling */
+.form-header-group.header-large {
+  background-color: #eaf4e2;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #c4e6bc;
+}
+
+.form-header-group h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-header-group p {
+  font-size: 14px;
+  color: #666;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+}
+
+.input-field, .textarea-field {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.input-field::placeholder {
+  color: #aaa;
+}
+
+textarea.textarea-field {
+  resize: vertical;
+  height: 100px;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.required label::after {
+  content: "*";
+  color: #f44336;
+  margin-left: 4px;
+}
+
+/* Carousel */
+#carouselClasses .carousel-inner img {
+  height: 300px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.card-img-custom {
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;
+  color: white;
+  font-size: 20px;
+}
+
+/* Navigation */
+.nav-link-custom {
+  font-weight: 600;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.nav-link-custom img {
+  max-height: 30px;
+  margin-right: 8px;
+}
+
+/* Footer */
+.footer-logo {
+  max-height: 70px;
+}
+
+.social-icon {
+  max-height: 30px;
 }

@@ -6,25 +6,54 @@
     <title>@ViewData["Title"] - Sportify_Back</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Sportify_Back.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a href="@Url.Action("Index", "Home")"</a>
-                 <img src="~/images/sportify.png" alt="Sportify Solutions" style="max-height: 50px;" />
+                <img src="~/images/sportify-.png" alt="Sportify Solutions" style="max-height: 50px;" />
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item dropdown ms-2">
+            <div class="btn-group dropdown">
+                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "UsuarioFinal")">
+                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
+                </a>
+                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <!-- TODO: url.action Definir -->
+                <ul class="dropdown-menu bg-primary text-white" aria-labelledby="usuarioDropdown">
+                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Gestión de Turnos</a></li>
+                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Gestionar Suscripción</a></li>
+                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Seleccionar Plan</a></li>
+                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                </ul>
+            </div>
+            </li>
+                        <li class="nav-item dropdown">
+                            <div class="btn-group dropdown ms-2">
+                                <a class="btn btn-link text-white d-flex align-items-center" href="@Url.Action("Index", "UsuarioAdministrador")" style="font-weight: 600; padding: 5px 10px; text-decoration: none;">
+                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" /> Profesores
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <!-- TODO: url.action Definir -->
+                                <ul class="dropdown-menu bg-primary text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 600;">Administrar Profesores</a></li>
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Administrar Accesos</a></li>
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Cargar Disciplinas</a></li>
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Crear Clases</a></li>
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Administrar Roles</a></li>
+                                    <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Generar Reportes</a></li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -32,17 +61,43 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container flex-grow-1">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Sportify_Back - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer bg-primary text-white mt-4">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center text-md-left mb-3 mb-md-0">
+                <img src="~/images/sportify-.png" alt="Sportify Solutions" class="footer-logo">
+            </div>
+            <div class="col-md-6 text-center mb-3 mb-md-0">
+                <a href="@Url.Action("Index", "Home")" class="text-white mx-2">Home</a> |
+                <a href="@Url.Action("About", "Home")" class="text-white mx-2">Sobre nosotros</a> |
+                <a href="@Url.Action("Contact", "Home")" class="text-white mx-2">Contacto</a>
+            </div>
+            <div class="col-md-3 text-center text-md-right">
+                <a href="#" class="text-white mx-2">
+                    <img src="~/images/facebook.png" alt="Facebook" class="social-icon">
+                </a>
+                <a href="#" class="text-white mx-2">
+                    <img src="~/images/instagram.png" alt="Instagram" class="social-icon">
+                </a>
+                <a href="#" class="text-white mx-2">
+                    <img src="~/images/twitter.png" alt="Twitter" class="social-icon">
+                </a>
+            </div>
         </div>
-    </footer>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="@Url.Action("Terms", "Home")" class="text-white mx-2 max-height: 30px;">Términos y condiciones</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
