@@ -657,13 +657,13 @@ namespace Sportify_Back.Migrations
 
             modelBuilder.Entity("Sportify_back.Models.Teachers", b =>
                 {
-                    b.HasOne("Sportify_back.Models.Activities", "Activity")
+                    b.HasOne("Sportify_back.Models.Activities", "Activities")
                         .WithMany("Teachers")
                         .HasForeignKey("ActivitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Activity");
+                    b.Navigation("Activities");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Users", b =>
