@@ -26,27 +26,24 @@ namespace Sportify_back.Models
         [Required]
         public string Mail { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public int Phone { get; set; }
 
         public string Address { get; set; }
 
         [ForeignKey("ProfileId")] //Este era required solo
-        public Profiles Profile { get; set; }
+        public Profiles? Profile { get; set; }
 
         [Required] // y este era foreingKey (lo di vuelta)
         public int  ProfileId { get; set; }
 
-        [Required]
-        public Plans Plans { get; set; }
+        public Plans? Plans { get; set; }
 
         [ForeignKey("Plans")]
         public int  PlanId { get; set; }
 
-        [Required]
-        public ICollection<Programmings> Programmings { get; set; }
+        public ICollection<Programmings>? Programmings { get; set; }
 
         public bool MedicalDocument  { get; set; }
 
