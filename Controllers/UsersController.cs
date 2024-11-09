@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,8 @@ namespace Sportify_Back.Controllers
 
             return View(users);
         }
+
+        [Authorize(Policy = "AdministradorOnly")]
 
         public IActionResult Create()
         {
@@ -161,7 +164,7 @@ namespace Sportify_Back.Controllers
 */
             return View(users); 
         }
-
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -180,7 +183,7 @@ namespace Sportify_Back.Controllers
 
             return View(users);
         }
-
+        [Authorize(Policy = "AdministradorOnly")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

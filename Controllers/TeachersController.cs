@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -46,12 +47,14 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Teachers/Create
+       [Authorize(Policy = "AdministradorOnly")]
+
         public IActionResult Create()
         {
             ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity");
             return View();
         }
-
+            
         // POST: Teachers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -68,6 +71,8 @@ namespace Sportify_Back.Controllers
            ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity",  teachers.ActivitiesId);
             return View(teachers);
         }
+        
+
 
         // GET: Teachers/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -140,7 +145,6 @@ namespace Sportify_Back.Controllers
 
             return View(teachers);
         }
-
         // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

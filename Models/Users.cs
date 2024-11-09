@@ -35,7 +35,7 @@ namespace Sportify_back.Models
         [ForeignKey("ProfileId")] //Este era required solo
         public Profiles? Profile { get; set; }
 
-        [Required] // y este era foreingKey (lo di vuelta)
+        [ForeignKey("Profiles")] // y este era foreingKey (lo di vuelta)
         public int  ProfileId { get; set; }
 
         public Plans? Plans { get; set; }

@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy =>
+    options.AddPolicy("AdministradorOnly", policy =>
         policy.RequireClaim("Profile", "Administrador")); // Verifica el claim "Profile" para ser "Administrador"
 });
 
