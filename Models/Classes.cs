@@ -17,26 +17,32 @@ namespace Sportify_back.Models
         public int Id { get; set; }
 
         [Required (ErrorMessage= "El nombre de la clase es obligatorio")]
+        [Display(Name = "Nombre")]
         public string Name { get; set; }
 
         public Activities? Activities { get; set; }
 
         [ForeignKey("Activities")]
+        [Display(Name = "Actividades")]
         public int  ActivityId { get; set; }
 
         [Required (ErrorMessage= "Debe indicar un día y horario de la clase")]
+        [Display(Name = "Fecha")]
         public DateTime Sched { get; set; }
 
         public Teachers? Teachers { get; set; }
 
-        [Display(Name ="Teachers")]
+        [Display(Name ="Profesores")]
         public int  TeachersId { get; set; }
 
         public List<Programmings>? Programmings { get; set; } = new List<Programmings>();
 
         [Required(ErrorMessage= "Debe indicar el cupo máximo de la clase")]
+
+        [Display(Name = "Cupo")]
         public int Quota { get; set; }
 
+        [Display(Name = "Activo")]
         public bool Active { get; set; }
         
     }
