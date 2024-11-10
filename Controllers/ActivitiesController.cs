@@ -43,9 +43,8 @@ namespace Sportify_Back.Controllers
             return View(activities);
         }
 
-        [Authorize(Policy = "AdministradorOnly")]
-
         // GET: Activities/Create
+        [Authorize(Policy = "AdministradorOnly")]
         public IActionResult Create()
         {
             return View();
@@ -68,6 +67,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Activities/Edit/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,6 +119,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Activities/Delete/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

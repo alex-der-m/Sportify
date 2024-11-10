@@ -18,7 +18,8 @@ namespace Sportify_Back.Controllers
         {
             _context = context;
         }
-
+        
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Index()
         {
             var users = _context.Users
@@ -26,7 +27,8 @@ namespace Sportify_Back.Controllers
                 .Include(u => u.Plans);
             return View(await _context.Users.ToListAsync());
         }
-
+        
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,7 +49,6 @@ namespace Sportify_Back.Controllers
         }
 
         [Authorize(Policy = "AdministradorOnly")]
-
         public IActionResult Create()
         {
             ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
@@ -91,18 +92,19 @@ namespace Sportify_Back.Controllers
 */
 
            if (!ModelState.IsValid)
-{
-    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-    {
-        ModelState.AddModelError(string.Empty, error.ErrorMessage); // Agrega errores al ModelState
-    }
-    return View(users); // Retorna la vista con errores de validación visibles
-}
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    ModelState.AddModelError(string.Empty, error.ErrorMessage); // Agrega errores al ModelState
+                }
+                return View(users); // Retorna la vista con errores de validación visibles
+            }
 
 
             return View(users);
         }
 
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

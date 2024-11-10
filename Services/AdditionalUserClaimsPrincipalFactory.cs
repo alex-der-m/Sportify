@@ -17,7 +17,7 @@ namespace Sportify_back.Identity // Ajusta el namespace si tienes otra estructur
             var identity = await base.GenerateClaimsAsync(user);
 
             // Agregar claim personalizado según el perfil del usuario
-            if (user.Email == "admin@sportify.com") // Ejemplo de verificación de perfil
+            if (user.Email != null && user.Email.EndsWith("@sportify.com", StringComparison.OrdinalIgnoreCase))
             {
                 identity.AddClaim(new Claim("Profile", "Administrador"));
             }

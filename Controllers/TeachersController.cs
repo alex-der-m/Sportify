@@ -19,6 +19,7 @@ namespace Sportify_Back.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "AdministradorOnly")]
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
@@ -26,6 +27,7 @@ namespace Sportify_Back.Controllers
             return View(await sportifyDbContext.ToListAsync());
         }
 
+        [Authorize(Policy = "AdministradorOnly")]
         // GET: Teachers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,17 +49,18 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Teachers/Create
-       [Authorize(Policy = "AdministradorOnly")]
-
+       
+        [Authorize(Policy = "AdministradorOnly")]
         public IActionResult Create()
         {
             ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity");
             return View();
         }
-            
+
         // POST: Teachers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "AdministradorOnly")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Dni,Mail,Phone,Address,ActivitiesId,Active")] Teachers teachers)
@@ -71,9 +74,9 @@ namespace Sportify_Back.Controllers
            ViewData["ActivitiesId"] = new SelectList(_context.Activities, "Id", "NameActivity",  teachers.ActivitiesId);
             return View(teachers);
         }
-        
 
 
+        [Authorize(Policy = "AdministradorOnly")]
         // GET: Teachers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -94,6 +97,7 @@ namespace Sportify_Back.Controllers
         // POST: Teachers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "AdministradorOnly")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Dni,Mail,Phone,Address,ActivitiesId,Active")] Teachers teachers)
@@ -128,6 +132,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Teachers/Delete/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,6 +151,7 @@ namespace Sportify_Back.Controllers
             return View(teachers);
         }
         // POST: Teachers/Delete/5
+        [Authorize(Policy = "AdministradorOnly")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Classes/Details/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +48,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Classes/Create
+        [Authorize(Policy = "AdministradorOnly")]
         public IActionResult Create()
         {
             ViewData["ActivityId"] = new SelectList(_context.Activities, "Id", "NameActivity");
@@ -72,6 +75,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Classes/Edit/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -127,6 +131,7 @@ namespace Sportify_Back.Controllers
         }
 
         // GET: Classes/Delete/5
+        [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

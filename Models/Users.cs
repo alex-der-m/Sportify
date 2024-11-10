@@ -26,6 +26,7 @@ namespace Sportify_back.Models
         [Required]
         public string Mail { get; set; }
 
+        [Required]
         public string? Password { get; set; }
 
         public int Phone { get; set; }
