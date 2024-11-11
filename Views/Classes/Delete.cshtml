@@ -6,7 +6,7 @@
 
 <h1>Borrar</h1>
 
-<h3>Esta seguro que quiere borrar?</h3>
+<h3>Estas seguro que queres borrar la clase de @Html.DisplayFor(model => model.Name)?</h3>
 <div>
     <h4>Clases</h4>
     <hr />
@@ -51,7 +51,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver a la lista</a>
     </form>
 </div>
