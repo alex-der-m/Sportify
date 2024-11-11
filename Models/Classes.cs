@@ -20,6 +20,7 @@ namespace Sportify_back.Models
         [Display(Name = "Nombre")]
         public string Name { get; set; }
 
+        [Display(Name = "Actividades")]
         public Activities? Activities { get; set; }
 
         [ForeignKey("Activities")]
@@ -30,6 +31,7 @@ namespace Sportify_back.Models
         [Display(Name = "Fecha")]
         public DateTime Sched { get; set; }
 
+        [Display(Name = "Profesores")]
         public Teachers? Teachers { get; set; }
 
         [Display(Name ="Profesores")]
