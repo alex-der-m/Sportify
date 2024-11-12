@@ -18,7 +18,7 @@
             <th>@Html.DisplayNameFor(model => model.Phone)</th>
             <th>@Html.DisplayNameFor(model => model.Address)</th>
             <th>@Html.DisplayNameFor(model => model.Profile)</th>
-            <th>@Html.DisplayNameFor(model => model.Plans.Name)</th> 
+            <th>@Html.DisplayNameFor(model => model.Plans)</th> 
             <th>@Html.DisplayNameFor(model => model.Active)</th>
             <th>@Html.DisplayNameFor(model => model.MedicalDocument)</th>
             <th>Actions</th>
@@ -32,7 +32,7 @@
             <td>@Html.DisplayFor(modelItem => item.Mail)</td>
             <td>@Html.DisplayFor(modelItem => item.Phone)</td>
             <td>@Html.DisplayFor(modelItem => item.Address)</td>
-            <td>@Html.DisplayFor(modelItem => item.Profile)</td>
+            <td>@Html.DisplayFor(modelItem => item.Profile.UserTypeName)</td>
             <td>@Html.DisplayFor(modelItem => item.Plans.Name)</td>
             <td>@Html.DisplayFor(modelItem => item.Active)</td>
             <td>@Html.DisplayFor(modelItem => item.MedicalDocument)</td>

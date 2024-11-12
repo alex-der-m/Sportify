@@ -25,7 +25,7 @@ namespace Sportify_Back.Controllers
             var users = _context.Users
                 .Include(u => u.Profile)
                 .Include(u => u.Plans);
-            return View(await _context.Users.ToListAsync());
+            return View(await users.ToListAsync());
         }
         
         [Authorize(Policy = "AdministradorOnly")]
