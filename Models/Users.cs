@@ -27,7 +27,7 @@ namespace Sportify_back.Models
         [Required  (ErrorMessage= "Debe ingresar un correo electrónico válido")]
         public string Mail { get; set; }
 
-        [Required]
+        [Required  (ErrorMessage= "La contraseña es obligatoria")]
         public string? Password { get; set; }
         
         [Display(Name="Teléfono")]
