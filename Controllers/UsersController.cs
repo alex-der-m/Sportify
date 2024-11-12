@@ -51,8 +51,10 @@ namespace Sportify_Back.Controllers
         [Authorize(Policy = "AdministradorOnly")]
         public IActionResult Create()
         {
-            ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
+
+            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+
 /*            
             var profiles = _context.Profiles.ToList();
             var plans = _context.Plans.ToList();
@@ -65,13 +67,14 @@ namespace Sportify_Back.Controllers
             
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+            //ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            //ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
 */
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Create([Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId")] Users users)
         {
             if (ModelState.IsValid)
@@ -81,15 +84,17 @@ namespace Sportify_Back.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
+            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+            //ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            //ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
             /*
             var profiles = _context.Profiles.ToList();
             var plans = _context.Plans.ToList();
 
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-*/
+
 
            if (!ModelState.IsValid)
             {
@@ -99,7 +104,7 @@ namespace Sportify_Back.Controllers
                 }
                 return View(users); // Retorna la vista con errores de validación visibles
             }
-
+*/
 
             return View(users);
         }
@@ -118,9 +123,12 @@ namespace Sportify_Back.Controllers
                 return NotFound();
             }
 
+            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+/*
             ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
-/*
+
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
 */
@@ -129,7 +137,6 @@ namespace Sportify_Back.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Edit(int id, [Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId")] Users users)
         {
             if (id != users.Id)
@@ -157,10 +164,12 @@ namespace Sportify_Back.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+                ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+                ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
 
+/*
             ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName", users.ProfileId);
             ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name", users.PlanId);
-/*
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
 */
