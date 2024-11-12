@@ -46,6 +46,7 @@ namespace Sportify_back.Models
         [Display(Name="Tipo de Usuario")]
         public int  ProfileId { get; set; }
 
+        [Display(Name="Plan")]
         public Plans? Plans { get; set; }
 
         [ForeignKey("Plans")]
