@@ -56,55 +56,41 @@ namespace Sportify_Back.Controllers
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
 
-/*            
-            var profiles = _context.Profiles.ToList();
-            var plans = _context.Plans.ToList();
-
-            if(!profiles.Any() || !plans.Any())
-            {
-                ModelState.AddModelError(String.Empty, "No hay perfiles o planes disponibles.");
-                return View();    
-            }
-            
-            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-            //ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            //ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
-*/
-            return View();
+        return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Users users)
-{
-    ModelState.Remove("DocumentContent");
-    
-    if (ModelState.IsValid)
-    {
-        if (users.Document != null)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                await users.Document.CopyToAsync(memoryStream);
-                users.DocumentContent = memoryStream.ToArray();  
-            }
+            ModelState.Remove("DocumentContent");
             
-            users.DocumentName = users.Document.FileName;      
-            users.DocumentContent = users.DocumentContent;    
+            if (ModelState.IsValid)
+            {
+                if (users.Document != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await users.Document.CopyToAsync(memoryStream);
+                        users.DocumentContent = memoryStream.ToArray();  
+                    }
+                    
+                    users.DocumentName = users.Document.FileName;      
+                    users.DocumentContent = users.DocumentContent;    
+                }
+
+                _context.Add(users);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+
+            return View(users);
         }
 
-        _context.Add(users);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-
-    ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-    ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-
-    return View(users);
-}
-
+        [HttpGet("Users/Edit/{id}")]
         [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -121,19 +107,14 @@ namespace Sportify_Back.Controllers
 
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-/*
-            ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
 
-            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-*/
             return View(users);
         }
 
-        [HttpPost]
+        [HttpPost("Users/Edit/{id}")]
+        [ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId,Document,DocumentContent,MedicalDocument")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Dni,Name,LastName,Mail,Phone,Address,Password,Active,ProfileId,PlanId,MedicalDocument")] Users users, IFormFile? Document)
         {
             if (id != users.Id)
             {
@@ -144,7 +125,38 @@ namespace Sportify_Back.Controllers
             {
                 try
                 {
-                    _context.Update(users);
+                    var existingUser = await _context.Users.FindAsync(id);
+
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Si se adjunta un nuevo archivo en la edición
+                    if (Document != null)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await Document.CopyToAsync(memoryStream);
+                            existingUser.DocumentContent = memoryStream.ToArray();
+                            existingUser.DocumentName = Document.FileName; // Guarda el nombre del archivo
+                        }
+                    }
+
+                    // Actualizar las demás propiedades
+                    existingUser.Dni = users.Dni;
+                    existingUser.Name = users.Name;
+                    existingUser.LastName = users.LastName;
+                    existingUser.Mail = users.Mail;
+                    existingUser.Phone = users.Phone;
+                    existingUser.Address = users.Address;
+                    existingUser.Password = users.Password;
+                    existingUser.Active = users.Active;
+                    existingUser.ProfileId = users.ProfileId;
+                    existingUser.PlanId = users.PlanId;
+                    existingUser.MedicalDocument = users.MedicalDocument;
+
+                    _context.Update(existingUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -160,17 +172,13 @@ namespace Sportify_Back.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-                ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-                ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
 
-/*
-            ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName", users.ProfileId);
-            ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name", users.PlanId);
             ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
             ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-*/
-            return View(users); 
+
+            return View(users);
         }
+
         [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
         {

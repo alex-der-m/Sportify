@@ -24,6 +24,10 @@ namespace Sportify_back.Models
         [Display(Name="Nombre")]
         public string Name { get; set; }
 
+        [Required  (ErrorMessage= "El apellido del usuario es obligatorio")]
+        [Display(Name="Apellido")]
+        public string LastName { get; set; }
+
         [Required  (ErrorMessage= "Debe ingresar un correo electrónico válido")]
         public string Mail { get; set; }
 
@@ -62,10 +66,9 @@ namespace Sportify_back.Models
         [Display(Name="Documento")]
         public IFormFile? Document { get; set; }
 
-        public string? DocumentName { get; set; } // Para almacenar el nombre del archivo
+        public string? DocumentName { get; set; } 
 
-        public byte[]? DocumentContent { get; set; } // Para almacenar el contenido del archivo
-
+        public byte[]? DocumentContent { get; set; } 
 
         [Display(Name="Activa")]
         public bool Active { get; set; }

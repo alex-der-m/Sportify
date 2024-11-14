@@ -18,6 +18,11 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Dni" class="control-label"></label>
                 <input asp-for="Dni" class="form-control" />
                 <span asp-validation-for="Dni" class="text-danger"></span>
@@ -90,29 +95,22 @@
 }
 
 <script>
-    // Espera a que el documento se cargue
     document.addEventListener("DOMContentLoaded", function() {
-        // Obtener los elementos del archivo y el checkbox
         const fileInput = document.getElementById('Document');
         const medicalDocCheckbox = document.getElementById('MedicalDocument');
         
-        // Función para verificar si hay un archivo y marcar el checkbox
         function checkMedicalDocStatus() {
-            // Si hay archivos seleccionados en el campo de documento, habilitar el checkbox y marcarlo
             if (fileInput.files && fileInput.files.length > 0) {
-                medicalDocCheckbox.disabled = false; // Habilitar el checkbox
-                medicalDocCheckbox.checked = true; // Marcar el checkbox
+                medicalDocCheckbox.disabled = false; 
+                medicalDocCheckbox.checked = true; 
             } else {
-                // Si no hay archivo seleccionado, deshabilitar el checkbox y desmarcarlo
-                medicalDocCheckbox.disabled = true; // Deshabilitar el checkbox
-                medicalDocCheckbox.checked = false; // Desmarcar el checkbox
+                medicalDocCheckbox.disabled = true; 
+                medicalDocCheckbox.checked = false; 
             }
         }
 
-        // Llamar a la función cuando el usuario seleccione un archivo
         fileInput.addEventListener('change', checkMedicalDocStatus);
 
-        // Ejecutar la función una vez al cargar la página para asegurar el estado correcto si ya hay un archivo
         checkMedicalDocStatus();
     });
 </script>
