@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
@@ -75,39 +76,34 @@ namespace Sportify_Back.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId")] Users users)
+        public async Task<IActionResult> Create(Users users)
+{
+    ModelState.Remove("DocumentContent");
+    
+    if (ModelState.IsValid)
+    {
+        if (users.Document != null)
         {
-            if (ModelState.IsValid)
+            using (var memoryStream = new MemoryStream())
             {
-                _context.Add(users);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await users.Document.CopyToAsync(memoryStream);
+                users.DocumentContent = memoryStream.ToArray();  
             }
-
-            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-            //ViewData["Profiles"] = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            //ViewData["Plans"] = new SelectList(_context.Plans, "Id", "Name");
-            /*
-            var profiles = _context.Profiles.ToList();
-            var plans = _context.Plans.ToList();
-
-            ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
-            ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
-
-
-           if (!ModelState.IsValid)
-            {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    ModelState.AddModelError(string.Empty, error.ErrorMessage); // Agrega errores al ModelState
-                }
-                return View(users); // Retorna la vista con errores de validación visibles
-            }
-*/
-
-            return View(users);
+            
+            users.DocumentName = users.Document.FileName;      
+            users.DocumentContent = users.DocumentContent;    
         }
+
+        _context.Add(users);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    ViewBag.Profiles = new SelectList(_context.Profiles, "Id", "UserTypeName");
+    ViewBag.Plans = new SelectList(_context.Plans, "Id", "Name");
+
+    return View(users);
+}
 
         [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Edit(int? id)
@@ -137,7 +133,7 @@ namespace Sportify_Back.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Dni,Name,Mail,Phone,Address,Password,Active,ProfileId,PlanId,Document,DocumentContent,MedicalDocument")] Users users)
         {
             if (id != users.Id)
             {

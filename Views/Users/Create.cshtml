@@ -61,15 +61,18 @@
                     <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
                 </label>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="MedicalDocument" /> @Html.DisplayNameFor(model => model.MedicalDocument)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Document" class="control-label"></label>
-                <input asp-for="Document" type="file" class="form-control" />
-                <span asp-validation-for="Document" class="text-danger"></span>
+            <div class="form-group d-flex align-items-center">
+                <div class="form-check mr-3">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="MedicalDocument" id="MedicalDocument" disabled /> 
+                        @Html.DisplayNameFor(model => model.MedicalDocument)
+                    </label>
+                </div>
+                
+                <div>
+                    <input asp-for="Document" type="file" class="form-control" id="Document" />
+                    <span asp-validation-for="Document" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
@@ -85,3 +88,31 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    // Espera a que el documento se cargue
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener los elementos del archivo y el checkbox
+        const fileInput = document.getElementById('Document');
+        const medicalDocCheckbox = document.getElementById('MedicalDocument');
+        
+        // Función para verificar si hay un archivo y marcar el checkbox
+        function checkMedicalDocStatus() {
+            // Si hay archivos seleccionados en el campo de documento, habilitar el checkbox y marcarlo
+            if (fileInput.files && fileInput.files.length > 0) {
+                medicalDocCheckbox.disabled = false; // Habilitar el checkbox
+                medicalDocCheckbox.checked = true; // Marcar el checkbox
+            } else {
+                // Si no hay archivo seleccionado, deshabilitar el checkbox y desmarcarlo
+                medicalDocCheckbox.disabled = true; // Deshabilitar el checkbox
+                medicalDocCheckbox.checked = false; // Desmarcar el checkbox
+            }
+        }
+
+        // Llamar a la función cuando el usuario seleccione un archivo
+        fileInput.addEventListener('change', checkMedicalDocStatus);
+
+        // Ejecutar la función una vez al cargar la página para asegurar el estado correcto si ya hay un archivo
+        checkMedicalDocStatus();
+    });
+</script>

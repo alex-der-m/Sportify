@@ -62,6 +62,11 @@ namespace Sportify_back.Models
         [Display(Name="Documento")]
         public IFormFile? Document { get; set; }
 
+        public string? DocumentName { get; set; } // Para almacenar el nombre del archivo
+
+        public byte[]? DocumentContent { get; set; } // Para almacenar el contenido del archivo
+
+
         [Display(Name="Activa")]
         public bool Active { get; set; }
 
