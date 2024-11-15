@@ -7,9 +7,9 @@
 <h1>Listado de Clases</h1>
 
 <p>
-    <a asp-action="Create">Crear nueva clase</a>
+    <a asp-action="Create" class="btn btn-outline-light">Crear nueva clase</a>
 </p>
-<table class="table">
+<table class="table-custom">
     <thead>
         <tr>
             <th>
@@ -55,9 +55,15 @@
                 @Html.DisplayFor(modelItem => item.Active)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ver detalle</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
+                    <img src="images/search.png" class="small-icon" alt="Icono de detalle"> Detalle
+                </a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="action-link edit-link">
+                    <img src="images/edit.png" class="small-icon" alt="Icono de editar"> Editar
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="action-link delete-link">
+                    <img src="images/bin.png" class="small-icon" alt="Icono de eliminar"> Eliminar
+                </a>
             </td>
         </tr>
 }

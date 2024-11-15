@@ -9,19 +9,29 @@ html {
   }
 }
 
+
 html, body {
-  height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
-  margin: 0; /* Elimina márgenes */
-  padding: 0; /* Elimina rellenos */
+  height: 100%; 
+  margin: 0; 
+  padding: 0; 
 }
 
 body {
   display: flex;
-  flex-direction: column; /* Flexbox con columna, para que footer quede al final */
+  flex-direction: column; 
+  background: linear-gradient(45deg, #2e688a, #366e8f,#3e7393, #467998, #4e7f9c); 
+  background-size: 400% 400%; 
+  animation: gradient-animation 10s ease infinite; 
 }
 
 main {
-  flex-grow: 1; /* Esto asegura que el contenido principal ocupe todo el espacio disponible */
+  flex-grow: 1; 
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Buttons and Focus */
@@ -98,9 +108,14 @@ textarea.textarea-field {
 /* Carousel */
 #carouselClasses .carousel-inner img {
   height: 300px;
-  width: auto;
-  object-fit: contain;
+  width: 50%;
+  object-fit: cover;
   margin: 0 auto;
+}
+
+.carousel-item {
+  border-radius: 60px; 
+  overflow: hidden; 
 }
 
 .card-img-custom {
@@ -146,3 +161,280 @@ textarea.textarea-field {
 .social-icon {
   max-height: 30px;
 }
+
+.footer-bg {
+  background-color: #1d4c67;
+  --bs-bg-opacity: 1;
+}
+
+/* Fondo y sombra */
+
+.card {
+  background-color: #266286; 
+  color: #cbcdcf; 
+  border-radius: 15px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+.card-title {
+  color: #ffffff; 
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.3rem; 
+  margin-bottom: 20px;
+}
+
+.card-text {
+  color: #e0e3e6; 
+  font-weight: 600;
+  text-align: left;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center; 
+}
+
+.card-text i {
+  color: #62a2d1; 
+  margin-right: 10px;
+  font-size: 1.2rem; 
+}
+
+.cupo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #cbcdcf;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/*PRUEBA*/
+#prueba {
+    display: none; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    background-color: #193f57; 
+    padding: 20px; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.card-Qr {
+  background-color: #193f57; 
+  color: #cbcdcf;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  padding: 20px;
+  width: 300px; 
+  text-align: center; 
+}
+
+
+.card-Qr:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+.card-Qr .card-body {
+  padding: 20px;
+}
+
+.card-Qr .card-title {
+  color: #ffffff; 
+  font-weight: 700;
+  font-size: 1.5rem; 
+}
+
+.card-Qr .card-text {
+  color: #e0e3e6; 
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.card-Qr button {
+  background-color: #667782; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card-Qr button:hover {
+  background-color: #7b7e80; 
+}
+
+
+/* Estilo para cada sección de información */
+.card .card-text {
+  background-color: rgba(255, 255, 255, 0.05); 
+  border-radius: 8px;
+  padding: 8px 12px; 
+  margin-bottom: 10px; 
+}
+
+/* Efecto hover suave en cada sección de información */
+.card .card-text:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+  transform: scale(1.02); 
+}
+
+.small-icon {
+  width: 20px; 
+  height: auto; 
+  margin-right: 10px;
+}
+
+/* Estilos de formulario */
+.form-label {
+    color: #333;
+}
+
+.input-group .form-control {
+  border-radius: 5px;
+}
+
+.input-group-append .btn {
+  border-radius: 5px;
+  padding: 8px 20px;
+  height: 100%; 
+  margin-left: 5px; 
+}
+
+.form-control {
+  height: auto;
+  padding: 10px;
+}
+
+.form-control::placeholder, .form-select::placeholder {
+    color: #aaa;
+}
+
+/* Botón */
+.btn-primary {
+    background-color: #143447;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #163a4f;
+}
+
+#prueba {
+  display: none;
+}
+
+/* Enlace de regreso */
+.text-decoration-none {
+    color: #1f516e;
+    font-weight: bold;
+}
+
+.text-decoration-none:hover {
+    color: #225676;
+    text-decoration: underline;
+}
+
+/*H1*/
+h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 2.5rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.3rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo para la tabla de listado de clases */
+.table-custom {
+  width: 100%;
+  margin: 20px auto;
+  background-color: #071118;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.table-custom th, .table-custom td {
+  padding: 12px 15px;
+  text-align: left;
+  color: #cbcdcf;
+}
+
+.table-custom th {
+  background-color: #143447;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.table-custom tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-custom tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+
+/* Botones de acción en las filas */
+.table-custom a {
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+/* Colores y efectos hover específicos */
+.table-custom .edit-link {
+  color: #245c7e;
+}
+
+.table-custom .details-link {
+  color: #1f516e;
+}
+
+.table-custom .delete-link {
+  color: #1b455f; 
+}
+
+.table-custom .edit-link:hover {
+  background-color: #266286;
+  color: #ffffff;
+}
+
+.table-custom .details-link:hover {
+  background-color: #225676;
+  color: #ffffff;
+}
+
+.table-custom .delete-link:hover {
+  background-color: #1d4b66;
+  color: #ffffff;
+}
+
+
+
