@@ -14,17 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="NameActivity" class="control-label"></label>
+                <label asp-for="NameActivity" class="control-label text-white"></label>
                 <input asp-for="NameActivity" class="form-control" />
                 <span asp-validation-for="NameActivity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label text-white"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
+                <label class="form-check-label text-white">
                     <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
                 </label>
             </div>
