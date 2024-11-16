@@ -132,18 +132,21 @@ namespace Sportify_Back.Controllers
                         return NotFound();
                     }
 
-                    // Si se adjunta un nuevo archivo en la edición
                     if (Document != null)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
                             await Document.CopyToAsync(memoryStream);
                             existingUser.DocumentContent = memoryStream.ToArray();
-                            existingUser.DocumentName = Document.FileName; // Guarda el nombre del archivo
+                            existingUser.DocumentName = Document.FileName; 
                         }
                     }
+                    else if (!users.MedicalDocument)
+                    {
+                        existingUser.DocumentContent = null;
+                        existingUser.DocumentName = null;
+                    }
 
-                    // Actualizar las demás propiedades
                     existingUser.Dni = users.Dni;
                     existingUser.Name = users.Name;
                     existingUser.LastName = users.LastName;
@@ -178,6 +181,7 @@ namespace Sportify_Back.Controllers
 
             return View(users);
         }
+
 
         [Authorize(Policy = "AdministradorOnly")]
         public async Task<IActionResult> Delete(int? id)
