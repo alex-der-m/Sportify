@@ -18,8 +18,22 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    public IActionResult Welcome()
+    {
+        if (User.Identity.IsAuthenticated)  // Verifica si el usuario está autenticado
+        {
+            return RedirectToAction("Index", "Home"); // Redirige a Home/Index si está logeado
+        }
+
+        return View(); 
+    }
+    
     public IActionResult Index()
     {
+        if (!User.Identity.IsAuthenticated) 
+        {
+            return RedirectToAction("Welcome", "Home"); 
+        }
         return View();
     }
 

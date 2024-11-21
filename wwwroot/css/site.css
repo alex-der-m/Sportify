@@ -19,7 +19,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column; 
-  background: linear-gradient(45deg, #2e688a, #366e8f,#3e7393, #467998, #4e7f9c); 
+  background: linear-gradient(45deg, #222e37, #2f3a43,#3c474f, #49535a, #565f66); 
   background-size: 400% 400%; 
   animation: gradient-animation 10s ease infinite; 
 }
@@ -163,14 +163,14 @@ textarea.textarea-field {
 }
 
 .footer-bg {
-  background-color: #1d4c67;
+  background-color: #222e37;
   --bs-bg-opacity: 1;
 }
 
 /* Fondo y sombra */
 
 .card {
-  background-color: #266286; 
+  background-color: #222e37; 
   color: #cbcdcf; 
   border-radius: 15px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
@@ -334,6 +334,50 @@ textarea.textarea-field {
     background-color: #163a4f;
 }
 
+/* Estilo para el botón de "Registrarse" */
+.btn-register {
+  color: #fff !important;
+  background-color: #143447 !important;
+  border: none !important;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
+}
+
+.btn-register:hover {
+  background-color: #185265 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+/* Estilo para el botón de "Iniciar Sesión" */
+.btn-login {
+  color: #fff !important;
+  background-color: #99b5c6 !important;
+  border: none !important;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
+}
+
+.btn-login:hover {
+  background-color: #7d9db4 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+
+.btn-login:hover {
+  background-color: #7d9db4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 #prueba {
   display: none;
 }
@@ -348,6 +392,7 @@ textarea.textarea-field {
     color: #225676;
     text-decoration: underline;
 }
+
 
 /*H1*/
 h1 {
@@ -398,6 +443,7 @@ h1 {
   transition: 0.3s;
 }
 
+
 /* Botones de acción en las filas */
 .table-custom a {
   font-weight: bold;
@@ -436,5 +482,111 @@ h1 {
   color: #ffffff;
 }
 
+.btn-bold {
+  font-weight: bold;
+}
+
+.custom-bg {
+  background-color: #1d4b66 !important;
+  color: #1d4b66 !important;
+}
 
 
+.text-divHome {
+  background: transparent;
+  text-align: center !important;
+  padding: 40px 20px;
+  border-radius: 15px;
+  color: white;
+}
+
+.text-divHome h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.text-divHome p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.text-home {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2.5rem; /* Más grande para destacar */
+  font-weight: bold;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Texto con degradado */
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Espaciado entre letras */
+  animation: fadeInDown 1.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-home + p {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  color: rgba(185, 208, 221, 0.8); /* Color con opacidad */
+  line-height: 1.5; /* Mejor legibilidad */
+  margin-bottom: 30px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.intro-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #202831; /* Fondo oscuro */
+  height: 100vh; /* Ocupa toda la pantalla */
+  color: white;
+}
+
+/* Imagen de introducción */
+.intro-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex: 1;
+}
+
+/* Contenido de texto */
+.intro-content {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+}
+
+.intro-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.intro-content p {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: #ccc;
+}

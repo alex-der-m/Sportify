@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@{
+     var isAuthenticated = User.Identity.IsAuthenticated;
+}
 
 <div id="carouselClasses" class="carousel slide my-4" data-ride="carousel">
     <div class="carousel-inner">
@@ -27,6 +30,7 @@
         </div>
     </div>
 </div>
+
 <!-- TODO: Que el buscador funcione -->
 <div class="container my-4">
     <div class="row">
@@ -51,7 +55,6 @@
     <div id="activityContainer" class="row">
     </div>
 </div>
-
 <div class="card-Qr" id="prueba">
         <div class="card-body">
             <h5 class="card-title">Código de Acceso</h5>
@@ -60,8 +63,6 @@
             <button class="btn btn-primary mt-3" onclick="ocultarQR()">Cerrar</button>
         </div>
 </div>
-
-
 <div id="ocultar" style="display: none;">Contenido que se muestra/oculta con el QR</div>
 
 @section Scripts {
@@ -102,11 +103,11 @@ function ocultarQR() {
                     <div class="card shadow-lg h-100">
                         <div class="card-body">
                             <h5 class="card-title">${activity.title}</h5>
-                            <p class="card-text"><img class="small-icon" src="images/calendar.png" alt="Icono de Fecha"> Fecha: ${activity.date}</p>
-                            <p class="card-text"><img class="small-icon" src="images/24.png" alt="Icono de Dia"> Día: ${activity.day}</p>
-                            <p class="card-text"><img class="small-icon" src="images/clock.png" alt="Icono de Hora"> Hora: ${activity.time}</p>
-                            <p class="card-text"><img class="small-icon" src="images/teacher.png" alt="Icono de Profesor"> Profesor: ${activity.teacher}</p>
-                            <p class="card-text"><img class="small-icon" src="images/quota.png" alt="Icono de horario"> Cupo: ${activity.cupo}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/calendar.png" alt="Icono de Fecha"> Fecha: ${activity.date}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/24.png"> Día: ${activity.day}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/clock.png"> Hora: ${activity.time}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/teacher.png"> Profesor: ${activity.teacher}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/quota.png"> Cupo: ${activity.cupo}</p>
                             <div class="text-center mt-3">
                                 <button class="btn btn-primary btn-inscribirse" data-id="${activity.id}">Inscribirse</button>
                             </div>

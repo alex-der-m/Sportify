@@ -4,38 +4,40 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Crear</h1>
+<h1 class="text-center mb-4">Crear Actividad</h1>
 
-<h4>Actividades</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+            <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NameActivity" class="control-label"></label>
-                <input asp-for="NameActivity" class="form-control" />
+            <div class="mb-3">
+                <label asp-for="NameActivity" class="form-label fw-bold text-white">Nombre</label>
+                <input asp-for="NameActivity" class="form-control rounded-pill" />
                 <span asp-validation-for="NameActivity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold text-white">Descripción</label>
+                <input asp-for="Description" class="form-control rounded-pill" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <div class="form-check mb-3">
+                        <input class="form-check-input" asp-for="Active" />
+                        <label class="form-check-label fw-bold text-white" for="activeCheck">
+                            @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+            <div class="d-grid">
+                        <input type="submit" value="Crear" class="btn btn-primary rounded-pill" />
+                    </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Volver a la lista</a>
+<div class="text-center mt-3">
+    <a asp-action="Index" class="text-decoration-none text-white">Volver al listado</a>
 </div>
 
 @section Scripts {
