@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Sportify_back.Identity;
-
+using Sportify_Back.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

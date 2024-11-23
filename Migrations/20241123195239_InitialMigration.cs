@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sportify_Back.Migrations
 {
     /// <inheritdoc />
-    public partial class update : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -309,6 +309,7 @@ namespace Sportify_Back.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Dni = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<int>(type: "int", nullable: false),
@@ -316,6 +317,8 @@ namespace Sportify_Back.Migrations
                     ProfileId = table.Column<int>(type: "int", nullable: false),
                     PlanId = table.Column<int>(type: "int", nullable: false),
                     MedicalDocument = table.Column<bool>(type: "bit", nullable: false),
+                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocumentContent = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

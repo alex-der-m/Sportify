@@ -12,8 +12,8 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    [Migration("20241110230411_update")]
-    partial class update
+    [Migration("20241123195239_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -493,8 +493,19 @@ namespace Sportify_Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Dni")
+                    b.Property<int?>("Dni")
+                        .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("DocumentContent")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("DocumentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mail")
                         .IsRequired()
@@ -511,7 +522,8 @@ namespace Sportify_Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Phone")
+                    b.Property<int?>("Phone")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("PlanId")
