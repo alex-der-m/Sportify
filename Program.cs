@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Sportify_back.Identity;
 using Sportify_Back.Areas.Identity.Data;
 using Sportify_Back.Models;
+using Sportify_Back.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdministradorOnly", policy =>
         policy.RequireClaim("Profile", "Administrador")); // Verifica el claim "Profile" para ser "Administrador"
 });
+
+// builder.Services.AddScoped<IEntityReportService, IEntityReportService>();//Agregamos el Service de Reporteria
+builder.Services.AddScoped<IEntityReportService, EntityReportService>(); // Agregamos el Service de Reporteria
 
 var app = builder.Build();
 

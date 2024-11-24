@@ -37,6 +37,8 @@ namespace Sportify_Back.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (activities == null)
             {
+
+            
                 return NotFound();
             }
 
