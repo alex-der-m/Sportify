@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Sportify_Back.Models;
 
 namespace Sportify_Back.Areas.Identity.Data;
 
-public class IdentityDataContext : IdentityDbContext<IdentityUser>
+public class IdentityDataContext : IdentityDbContext<ApplicationUser>
 {
     public IdentityDataContext(DbContextOptions<IdentityDataContext> options)
         : base(options)
