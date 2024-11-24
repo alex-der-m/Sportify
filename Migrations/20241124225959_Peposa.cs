@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sportify_Back.Migrations
 {
     /// <inheritdoc />
-    public partial class pepe : Migration
+    public partial class Peposa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,36 +38,6 @@ namespace Sportify_Back.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DocumentName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DocumentContent = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,6 +144,132 @@ namespace Sportify_Back.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActivitiesPlans",
+                columns: table => new
+                {
+                    ActivitiesId = table.Column<int>(type: "int", nullable: false),
+                    PlansId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivitiesPlans", x => new { x.ActivitiesId, x.PlansId });
+                    table.ForeignKey(
+                        name: "FK_ActivitiesPlans_Activities_ActivitiesId",
+                        column: x => x.ActivitiesId,
+                        principalTable: "Activities",
+                        principalColumn: "IdActivity",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActivitiesPlans_Plans_PlansId",
+                        column: x => x.PlansId,
+                        principalTable: "Plans",
+                        principalColumn: "IdPlans",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LicensesProfiles",
+                columns: table => new
+                {
+                    LicensesId = table.Column<int>(type: "int", nullable: false),
+                    ProfilesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LicensesProfiles", x => new { x.LicensesId, x.ProfilesId });
+                    table.ForeignKey(
+                        name: "FK_LicensesProfiles_Licenses_LicensesId",
+                        column: x => x.LicensesId,
+                        principalTable: "Licenses",
+                        principalColumn: "IdLicenses",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LicensesProfiles_Profiles_ProfilesId",
+                        column: x => x.ProfilesId,
+                        principalTable: "Profiles",
+                        principalColumn: "IdProfiles",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocumentContent = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PlansId = table.Column<int>(type: "int", nullable: true),
+                    ProfilesId = table.Column<int>(type: "int", nullable: true),
+                    ProgrammingsId = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Plans_PlansId",
+                        column: x => x.PlansId,
+                        principalTable: "Plans",
+                        principalColumn: "IdPlans");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Profiles_ProfilesId",
+                        column: x => x.ProfilesId,
+                        principalTable: "Profiles",
+                        principalColumn: "IdProfiles");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Programmings_ProgrammingsId",
+                        column: x => x.ProgrammingsId,
+                        principalTable: "Programmings",
+                        principalColumn: "IdProgramming");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    IdClasses = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityId = table.Column<int>(type: "int", nullable: false),
+                    Sched = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TeachersId = table.Column<int>(type: "int", nullable: false),
+                    Quota = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.IdClasses);
+                    table.ForeignKey(
+                        name: "FK_Classes_Activities_ActivityId",
+                        column: x => x.ActivityId,
+                        principalTable: "Activities",
+                        principalColumn: "IdActivity",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Classes_Teachers_TeachersId",
+                        column: x => x.TeachersId,
+                        principalTable: "Teachers",
+                        principalColumn: "IdTeachers",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -259,145 +355,6 @@ namespace Sportify_Back.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActivitiesPlans",
-                columns: table => new
-                {
-                    ActivitiesId = table.Column<int>(type: "int", nullable: false),
-                    PlansId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActivitiesPlans", x => new { x.ActivitiesId, x.PlansId });
-                    table.ForeignKey(
-                        name: "FK_ActivitiesPlans_Activities_ActivitiesId",
-                        column: x => x.ActivitiesId,
-                        principalTable: "Activities",
-                        principalColumn: "IdActivity",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivitiesPlans_Plans_PlansId",
-                        column: x => x.PlansId,
-                        principalTable: "Plans",
-                        principalColumn: "IdPlans",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LicensesProfiles",
-                columns: table => new
-                {
-                    LicensesId = table.Column<int>(type: "int", nullable: false),
-                    ProfilesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LicensesProfiles", x => new { x.LicensesId, x.ProfilesId });
-                    table.ForeignKey(
-                        name: "FK_LicensesProfiles_Licenses_LicensesId",
-                        column: x => x.LicensesId,
-                        principalTable: "Licenses",
-                        principalColumn: "IdLicenses",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LicensesProfiles_Profiles_ProfilesId",
-                        column: x => x.ProfilesId,
-                        principalTable: "Profiles",
-                        principalColumn: "IdProfiles",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    IdUsers = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dni = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false),
-                    PlanId = table.Column<int>(type: "int", nullable: false),
-                    MedicalDocument = table.Column<bool>(type: "bit", nullable: false),
-                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentContent = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.IdUsers);
-                    table.ForeignKey(
-                        name: "FK_Users_Plans_PlanId",
-                        column: x => x.PlanId,
-                        principalTable: "Plans",
-                        principalColumn: "IdPlans",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
-                        principalColumn: "IdProfiles",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Classes",
-                columns: table => new
-                {
-                    IdClasses = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActivityId = table.Column<int>(type: "int", nullable: false),
-                    Sched = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeachersId = table.Column<int>(type: "int", nullable: false),
-                    Quota = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classes", x => x.IdClasses);
-                    table.ForeignKey(
-                        name: "FK_Classes_Activities_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "Activities",
-                        principalColumn: "IdActivity",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Classes_Teachers_TeachersId",
-                        column: x => x.TeachersId,
-                        principalTable: "Teachers",
-                        principalColumn: "IdTeachers",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProgrammingsUsers",
-                columns: table => new
-                {
-                    ProgrammingsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProgrammingsUsers", x => new { x.ProgrammingsId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_ProgrammingsUsers_Programmings_ProgrammingsId",
-                        column: x => x.ProgrammingsId,
-                        principalTable: "Programmings",
-                        principalColumn: "IdProgramming",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProgrammingsUsers_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
-                        principalColumn: "IdUsers",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ClassesProgrammings",
                 columns: table => new
                 {
@@ -459,6 +416,21 @@ namespace Sportify_Back.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_PlansId",
+                table: "AspNetUsers",
+                column: "PlansId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ProfilesId",
+                table: "AspNetUsers",
+                column: "ProfilesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ProgrammingsId",
+                table: "AspNetUsers",
+                column: "ProgrammingsId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -486,24 +458,9 @@ namespace Sportify_Back.Migrations
                 column: "ProfilesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgrammingsUsers_UsersId",
-                table: "ProgrammingsUsers",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_ActivitiesId",
                 table: "Teachers",
                 column: "ActivitiesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_PlanId",
-                table: "Users",
-                column: "PlanId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ProfileId",
-                table: "Users",
-                column: "ProfileId");
         }
 
         /// <inheritdoc />
@@ -534,9 +491,6 @@ namespace Sportify_Back.Migrations
                 name: "LicensesProfiles");
 
             migrationBuilder.DropTable(
-                name: "ProgrammingsUsers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -549,19 +503,16 @@ namespace Sportify_Back.Migrations
                 name: "Licenses");
 
             migrationBuilder.DropTable(
-                name: "Programmings");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Teachers");
-
-            migrationBuilder.DropTable(
                 name: "Plans");
 
             migrationBuilder.DropTable(
                 name: "Profiles");
+
+            migrationBuilder.DropTable(
+                name: "Programmings");
+
+            migrationBuilder.DropTable(
+                name: "Teachers");
 
             migrationBuilder.DropTable(
                 name: "Activities");

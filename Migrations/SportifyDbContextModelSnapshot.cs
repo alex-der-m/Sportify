@@ -200,21 +200,6 @@ namespace Sportify_Back.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProgrammingsUsers", b =>
-                {
-                    b.Property<int>("ProgrammingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProgrammingsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ProgrammingsUsers");
-                });
-
             modelBuilder.Entity("Sportify_Back.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -235,8 +220,7 @@ namespace Sportify_Back.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("DocumentName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -276,6 +260,15 @@ namespace Sportify_Back.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("PlansId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProfilesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProgrammingsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -295,6 +288,12 @@ namespace Sportify_Back.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PlansId");
+
+                    b.HasIndex("ProfilesId");
+
+                    b.HasIndex("ProgrammingsId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -489,68 +488,6 @@ namespace Sportify_Back.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("Sportify_back.Models.Users", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdUsers");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Dni")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("DocumentContent")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("DocumentName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("MedicalDocument")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlanId");
-
-                    b.HasIndex("ProfileId");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("ActivitiesPlans", b =>
                 {
                     b.HasOne("Sportify_back.Models.Activities", null)
@@ -647,19 +584,19 @@ namespace Sportify_Back.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProgrammingsUsers", b =>
+            modelBuilder.Entity("Sportify_Back.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Sportify_back.Models.Programmings", null)
-                        .WithMany()
-                        .HasForeignKey("ProgrammingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Sportify_back.Models.Plans", null)
+                        .WithMany("Users")
+                        .HasForeignKey("PlansId");
 
-                    b.HasOne("Sportify_back.Models.Users", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Sportify_back.Models.Profiles", null)
+                        .WithMany("Users")
+                        .HasForeignKey("ProfilesId");
+
+                    b.HasOne("Sportify_back.Models.Programmings", null)
+                        .WithMany("Users")
+                        .HasForeignKey("ProgrammingsId");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Classes", b =>
@@ -692,25 +629,6 @@ namespace Sportify_Back.Migrations
                     b.Navigation("Activities");
                 });
 
-            modelBuilder.Entity("Sportify_back.Models.Users", b =>
-                {
-                    b.HasOne("Sportify_back.Models.Plans", "Plans")
-                        .WithMany("Users")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sportify_back.Models.Profiles", "Profile")
-                        .WithMany("Users")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Plans");
-
-                    b.Navigation("Profile");
-                });
-
             modelBuilder.Entity("Sportify_back.Models.Activities", b =>
                 {
                     b.Navigation("Classes");
@@ -724,6 +642,11 @@ namespace Sportify_Back.Migrations
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Profiles", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Sportify_back.Models.Programmings", b =>
                 {
                     b.Navigation("Users");
                 });

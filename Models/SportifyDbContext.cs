@@ -18,7 +18,6 @@ namespace Sportify_back.Models
         public DbSet<Plans> Plans { get; set; }
         public DbSet<Profiles> Profiles { get; set; }
         public DbSet<Programmings> Programmings { get; set; }
-        public DbSet<Users> Users { get; set; }
         public DbSet<Teachers> Teachers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
