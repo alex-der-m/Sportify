@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class=" flex-column min-vh-100 background-container">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
             <div class="container-fluid">
                 <a href="@Url.Action("Index", "Home")">
                     <img src="~/images/sportify-.png" alt="Sportify Solutions" style="max-height: 50px;" />
@@ -39,12 +39,12 @@
                                     <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
-                                    <ul class="dropdown-menu bg-primary text-white" aria-labelledby="usuarioDropdown">
+                                    <ul class="dropdown-menu custom-bg text-white" aria-labelledby="usuarioDropdown">
                                         <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Gestión de Turnos</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Gestionar Suscripción</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Seleccionar Plan</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Cargar Apto Médico</a></li>
-                                    </ul>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Plans")" style="font-weight: 500;">Seleccionar Plan</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("LoadMedical", "Users")" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                                        </ul>
                                 </div>
                             </li>
                         }
@@ -61,10 +61,10 @@
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu bg-primary text-white" aria-labelledby="adminDropdown">
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 600;">Administrar Profesores</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Administrar Accesos</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Cargar Disciplinas</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Crear Clases</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Teachers")" style="font-weight: 600;">Administrar Profesores</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Users")" style="font-weight: 500;">Administrar Accesos</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Activities")" style="font-weight: 500;">Cargar Disciplinas</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Classes")" style="font-weight: 500;">Crear Clases</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Administrar Roles</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("", "PorDefinir")" style="font-weight: 500;">Generar Reportes</a></li>
                                     </ul>
@@ -84,7 +84,7 @@
         </main>
     </div>
 
-    <footer class="footer bg-primary text-white mt-4">
+    <footer class="footer footer-bg text-white mt-4">
         <div class="container py-4">
             <div class="row align-items-center">
                 <div class="col-md-3 text-center text-md-left mb-3 mb-md-0">

@@ -9,19 +9,29 @@ html {
   }
 }
 
+
 html, body {
-  height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
-  margin: 0; /* Elimina márgenes */
-  padding: 0; /* Elimina rellenos */
+  height: 100%; 
+  margin: 0; 
+  padding: 0; 
 }
 
 body {
   display: flex;
-  flex-direction: column; /* Flexbox con columna, para que footer quede al final */
+  flex-direction: column; 
+  background: linear-gradient(45deg, #222e37, #2f3a43,#3c474f, #49535a, #565f66); 
+  background-size: 400% 400%; 
+  animation: gradient-animation 10s ease infinite; 
 }
 
 main {
-  flex-grow: 1; /* Esto asegura que el contenido principal ocupe todo el espacio disponible */
+  flex-grow: 1; 
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Buttons and Focus */
@@ -98,9 +108,14 @@ textarea.textarea-field {
 /* Carousel */
 #carouselClasses .carousel-inner img {
   height: 300px;
-  width: auto;
-  object-fit: contain;
+  width: 50%;
+  object-fit: cover;
   margin: 0 auto;
+}
+
+.carousel-item {
+  border-radius: 60px; 
+  overflow: hidden; 
 }
 
 .card-img-custom {
@@ -145,4 +160,433 @@ textarea.textarea-field {
 
 .social-icon {
   max-height: 30px;
+}
+
+.footer-bg {
+  background-color: #222e37;
+  --bs-bg-opacity: 1;
+}
+
+/* Fondo y sombra */
+
+.card {
+  background-color: #222e37; 
+  color: #cbcdcf; 
+  border-radius: 15px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+.card-title {
+  color: #ffffff; 
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.3rem; 
+  margin-bottom: 20px;
+}
+
+.card-text {
+  color: #e0e3e6; 
+  font-weight: 600;
+  text-align: left;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center; 
+}
+
+.card-text i {
+  color: #62a2d1; 
+  margin-right: 10px;
+  font-size: 1.2rem; 
+}
+
+.cupo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #cbcdcf;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/*PRUEBA*/
+#prueba {
+    display: none; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    background-color: #193f57; 
+    padding: 20px; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.card-Qr {
+  background-color: #193f57; 
+  color: #cbcdcf;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  padding: 20px;
+  width: 300px; 
+  text-align: center; 
+}
+
+
+.card-Qr:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+.card-Qr .card-body {
+  padding: 20px;
+}
+
+.card-Qr .card-title {
+  color: #ffffff; 
+  font-weight: 700;
+  font-size: 1.5rem; 
+}
+
+.card-Qr .card-text {
+  color: #e0e3e6; 
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.card-Qr button {
+  background-color: #667782; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card-Qr button:hover {
+  background-color: #7b7e80; 
+}
+
+
+/* Estilo para cada sección de información */
+.card .card-text {
+  background-color: rgba(255, 255, 255, 0.05); 
+  border-radius: 8px;
+  padding: 8px 12px; 
+  margin-bottom: 10px; 
+}
+
+/* Efecto hover suave en cada sección de información */
+.card .card-text:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+  transform: scale(1.02); 
+}
+
+.small-icon {
+  width: 20px; 
+  height: auto; 
+  margin-right: 10px;
+}
+
+/* Estilos de formulario */
+.form-label {
+    color: #333;
+}
+
+.input-group .form-control {
+  border-radius: 5px;
+}
+
+.input-group-append .btn {
+  border-radius: 5px;
+  padding: 8px 20px;
+  height: 100%; 
+  margin-left: 5px; 
+}
+
+.form-control {
+  height: auto;
+  padding: 10px;
+}
+
+.form-control::placeholder, .form-select::placeholder {
+    color: #aaa;
+}
+
+/* Botón */
+.btn-primary {
+    background-color: #143447;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #163a4f;
+}
+
+/* Estilo para el botón de "Registrarse" */
+.btn-register {
+  color: #fff !important;
+  background-color: #143447 !important;
+  border: none !important;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
+}
+
+.btn-register:hover {
+  background-color: #185265 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+/* Estilo para el botón de "Iniciar Sesión" */
+.btn-login {
+  color: #fff !important;
+  background-color: #99b5c6 !important;
+  border: none !important;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
+}
+
+.btn-login:hover {
+  background-color: #7d9db4 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+
+.btn-login:hover {
+  background-color: #7d9db4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#prueba {
+  display: none;
+}
+
+/* Enlace de regreso */
+.text-decoration-none {
+    color: #1f516e;
+    font-weight: bold;
+}
+
+.text-decoration-none:hover {
+    color: #225676;
+    text-decoration: underline;
+}
+
+
+/*H1*/
+h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 2.5rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.3rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo para la tabla de listado de clases */
+.table-custom {
+  width: 100%;
+  margin: 20px auto;
+  background-color: #071118;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.table-custom th, .table-custom td {
+  padding: 12px 15px;
+  text-align: left;
+  color: #cbcdcf;
+}
+
+.table-custom th {
+  background-color: #143447;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.table-custom tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-custom tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+
+
+/* Botones de acción en las filas */
+.table-custom a {
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+/* Colores y efectos hover específicos */
+.table-custom .edit-link {
+  color: #245c7e;
+}
+
+.table-custom .details-link {
+  color: #1f516e;
+}
+
+.table-custom .delete-link {
+  color: #1b455f; 
+}
+
+.table-custom .edit-link:hover {
+  background-color: #266286;
+  color: #ffffff;
+}
+
+.table-custom .details-link:hover {
+  background-color: #225676;
+  color: #ffffff;
+}
+
+.table-custom .delete-link:hover {
+  background-color: #1d4b66;
+  color: #ffffff;
+}
+
+.btn-bold {
+  font-weight: bold;
+}
+
+.custom-bg {
+  background-color: #1d4b66 !important;
+  color: #1d4b66 !important;
+}
+
+
+.text-divHome {
+  background: transparent;
+  text-align: center !important;
+  padding: 40px 20px;
+  border-radius: 15px;
+  color: white;
+}
+
+.text-divHome h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.text-divHome p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.text-home {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2.5rem; /* Más grande para destacar */
+  font-weight: bold;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Texto con degradado */
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Espaciado entre letras */
+  animation: fadeInDown 1.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-home + p {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  color: rgba(185, 208, 221, 0.8); /* Color con opacidad */
+  line-height: 1.5; /* Mejor legibilidad */
+  margin-bottom: 30px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.intro-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #202831; /* Fondo oscuro */
+  height: 100vh; /* Ocupa toda la pantalla */
+  color: white;
+}
+
+/* Imagen de introducción */
+.intro-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex: 1;
+}
+
+/* Contenido de texto */
+.intro-content {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+}
+
+.intro-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.intro-content p {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: #ccc;
 }

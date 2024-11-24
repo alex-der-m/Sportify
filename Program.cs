@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Sportify_back.Identity;
+using Sportify_Back.Areas.Identity.Data;
+using Sportify_Back.Models;
 using Sportify_Back.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Agregar explícitamente el archivo appsettings.json
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddDbContext<SportifyDbContext>(options =>
@@ -14,14 +19,14 @@ builder.Services.AddDbContext<SportifyDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Configuramos Identity con la fábrica de claims personalizada
-builder.Services.AddDefaultIdentity<IdentityUser>
+builder.Services.AddDefaultIdentity<ApplicationUser>
     (options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<SportifyDbContext>()
     .AddClaimsPrincipalFactory<AdditionalUserClaimsPrincipalFactory>(); // Agregamos aca la fábrica de claims aquí
 
 builder.Services.AddControllersWithViews();
 
-// Configurar la autenticación por cookies // (para no generar un controller para el login, que seria otra opcion)
+// Configurar la autenticación por cookies (para no generar un controller para el login, que seria otra opcion)
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -48,7 +53,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -57,12 +61,23 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();//Agregamos la autenticacion
+app.UseAuthentication(); // Agregamos la autenticacion
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Welcome}/{id?}");
 app.MapRazorPages();
 
-app.Run();
+
+try
+{
+    
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+    Console.WriteLine(ex.StackTrace);
+    throw;
+}
