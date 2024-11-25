@@ -44,7 +44,7 @@
             <span asp-validation-for="Input.DNI" class="text-danger"></span>
         </div>
         <div class="form-floating mb-3">
-            <input asp-for="Input.Document" type="file" class="form-control" />
+            <input asp-for="Input.Document" type="file" class="form-control" accept=".pdf, .jpeg, .jpg, .png" />
             <label asp-for="Input.Document">Document</label>
             <span asp-validation-for="Input.Document" class="text-danger"></span>
         </div>

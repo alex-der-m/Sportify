@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +12,14 @@ namespace Sportify_Back.Models
     {
     public string Name { get; set; }
     public string LastName { get; set; }
-    public string DNI { get; set; }
+    
+    [DisplayFormat(DataFormatString = "{0:##.###.###}")]
+    [Range(10000000, 99999999, ErrorMessage = "El DNI debe tener exactamente 8 dígitos.")]
+    public int DNI { get; set; }
+
+    [Display(Name = "Document")]
+    [NotMapped]
+    public IFormFile? Document { get; set; }
     public string? DocumentName { get; set; }
     public byte[]? DocumentContent { get; set; }
     }

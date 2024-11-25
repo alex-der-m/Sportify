@@ -198,7 +198,7 @@ namespace Sportify_Back.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DNI = table.Column<int>(type: "int", nullable: false),
                     DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DocumentContent = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PlansId = table.Column<int>(type: "int", nullable: true),

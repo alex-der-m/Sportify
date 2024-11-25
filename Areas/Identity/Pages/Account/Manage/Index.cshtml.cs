@@ -120,20 +120,25 @@ namespace Sportify_Back.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.Document != null)
-            {
-                using var memoryStream = new MemoryStream();
-                await Input.Document.CopyToAsync(memoryStream);
-
-                user.DocumentName = Input.Document.FileName;
-                user.DocumentContent = memoryStream.ToArray();
-            }
-
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnGetDownloadFileAsync()
+        {
+            var user = await _userManager.GetUserAsync(User); // Obtenemos el usuario autenticado.
+
+            if (user == null || user.DocumentContent == null || string.IsNullOrEmpty(user.DocumentName))
+            {
+                return NotFound("No se encontró ningún documento asociado a este usuario.");
+            }
+
+            // Retornar el archivo como un FileResult.
+            return File(user.DocumentContent, "application/octet-stream", user.DocumentName);
+        }
+
 
     }
 }

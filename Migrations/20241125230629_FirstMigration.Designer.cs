@@ -12,7 +12,7 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    [Migration("20241125030811_FirstMigration")]
+    [Migration("20241125230629_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -215,9 +215,8 @@ namespace Sportify_Back.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DNI")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DNI")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("DocumentContent")
                         .HasColumnType("varbinary(max)");

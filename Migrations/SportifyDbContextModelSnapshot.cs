@@ -212,9 +212,8 @@ namespace Sportify_Back.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DNI")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DNI")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("DocumentContent")
                         .HasColumnType("varbinary(max)");
