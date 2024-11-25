@@ -83,11 +83,13 @@ namespace Sportify_Back.Areas.Identity.Pages.Account
             [Display(Name = "DNI")]
             public string DNI { get; set; }
 
+            [Required]
             [Display(Name = "Document")]
-            public IFormFile? Document { get; set; }
+            public IFormFile Document { get; set; }
 
-            public string? DocumentName { get; set; }
-            public byte[]? DocumentContent { get; set; }
+            public string DocumentName { get; set; }
+            
+            public byte[] DocumentContent { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
