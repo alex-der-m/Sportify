@@ -18,6 +18,7 @@ namespace Sportify_back.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name="Tipo de Plan")]
         public string Name { get; set; }
 
         [Required]
@@ -28,6 +29,12 @@ namespace Sportify_back.Models
 
         [Required]
         public List<Activities> Activities { get; set; }
+
+        
+         [Required]
+        public List<Payments> Payments { get; set; }
+
+        public decimal Monto { get; set; }
 
         public bool Active { get; set; }
         

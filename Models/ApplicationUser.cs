@@ -10,6 +10,7 @@ namespace Sportify_Back.Models
 {
     public class ApplicationUser : IdentityUser
     {
+    [Display(Name = "Nombre")]
     public string Name { get; set; }
     public string LastName { get; set; }
     
@@ -22,5 +23,7 @@ namespace Sportify_Back.Models
     public IFormFile? Document { get; set; }
     public string? DocumentName { get; set; }
     public byte[]? DocumentContent { get; set; }
+
+    
     }
 }

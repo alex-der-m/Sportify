@@ -20,6 +20,10 @@ namespace Sportify_back.Models
         public DbSet<Programmings> Programmings { get; set; }
         public DbSet<Teachers> Teachers { get; set; }
 
+        public DbSet<Payments> Payments { get; set; }
+
+        public DbSet<PaymentMethod> PaymentMethod { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,6 +39,15 @@ namespace Sportify_back.Models
                 entity.HasKey(login => new { login.LoginProvider, login.ProviderKey });
                 entity.ToTable("AspNetUserLogins");
             });
+
+            modelBuilder.Entity<Payments>()
+        .HasOne(up => up.ApplicationUser)
+        .WithMany()  // o .WithOne() dependiendo de la relación
+        .HasForeignKey(up => up.UsersId)
+        .HasPrincipalKey(au => au.Id); 
+
+
+
         }
     }
 }
