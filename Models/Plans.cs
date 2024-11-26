@@ -18,6 +18,7 @@ namespace Sportify_back.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name="Tipo de Plan")]
         public string Name { get; set; }
 
         [Required]

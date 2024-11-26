@@ -94,9 +94,17 @@ public IActionResult GetPlanAmount(int planId)
 
         public IActionResult Create()
         {
+            var currentUserId = User.Identity.Name; // O usar otro método para obtener el ID del usuario actual
+
+            // Encontrar el usuario actual en la base de datos (suponiendo que 'User' es de tipo ApplicationUser)
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserName == currentUserId); // O usar 'Id' si es más apropiado
+
+            // Crear un SelectList que contiene solo el usuario actual
+            ViewData["UsersId"] = new SelectList(new List<ApplicationUser> { currentUser }, "Id", "Name", currentUser?.Id);
+
             ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethod, "Id", "Tipo");
             ViewData["PlansId"] = new SelectList(_context.Plans, "Id", "Name");
-            ViewData["UsersId"] = new SelectList(_context.Users, "Id", "Name");
+
             return View();
         }
 

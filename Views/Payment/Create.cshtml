@@ -19,7 +19,7 @@
                     <div class="mb-3">
                         <label asp-for="UsersId" class="form-label fw-bold text-white">Seleccionar Usuario</label>
                         <select asp-for="UsersId" class="form-select rounded-pill" asp-items="@(ViewData["UsersId"] as SelectList)">
-                            <option value="">Seleccione un Usuario</option>
+                            <!-- No es necesario tener la opción de "Seleccione un Usuario" ya que solo hay uno -->
                         </select>
                     </div>
 
@@ -48,7 +48,7 @@
                     <!-- Ingresar Número de Tarjeta -->
                     <div class="mb-3">
                         <label asp-for="CardNumber" class="form-label fw-bold text-white">Ingrese número de Tarjeta</label>
-                        <input asp-for="CardNumber" type="text" class="form-control rounded-pill" />
+                        <input asp-for="CardNumber" type="text" class="form-control rounded-pill" maxlength="16" required/>
                         <span asp-validation-for="CardNumber" class="text-danger"></span>
                     </div>
 
@@ -62,7 +62,7 @@
                     <!-- Ingresar Código de Seguridad -->
                     <div class="mb-3">
                         <label asp-for="SecurityCode" class="form-label fw-bold text-white">Ingrese código de seguridad</label>
-                        <input asp-for="SecurityCode" type="text" class="form-control rounded-pill" />
+                        <input asp-for="SecurityCode" type="text" class="form-control rounded-pill" maxlength="3" required/>
                         <span asp-validation-for="SecurityCode" class="text-danger"></span>
                     </div>
 
