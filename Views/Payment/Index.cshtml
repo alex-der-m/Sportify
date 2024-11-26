@@ -1,0 +1,50 @@
+@model IEnumerable<Sportify_back.Models.Payments>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Listado de Pagos</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo Pago</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Alumno
+            </th>
+            <th>
+                Plan
+            </th>
+            <th>
+                Método de pago
+            </th>
+            <th>
+               Monto
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plans.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethod.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plans.Monto)
+            </td>
+            <td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

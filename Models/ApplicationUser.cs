@@ -13,5 +13,7 @@ namespace Sportify_Back.Models
     public string DNI { get; set; }
     public string? DocumentName { get; set; }
     public byte[]? DocumentContent { get; set; }
+
+    
     }
 }

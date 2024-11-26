@@ -1,0 +1,76 @@
+@model Sportify_back.Models.Payments
+
+@{
+    ViewData["Title"] = "Efectuar Pago";
+}
+
+<h1>Módulo de Pagos</h1>
+
+<h4>Pagar cuota</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UsersId" class="control-label">Seleccionar Usuario</label>
+                <select asp-for="UsersId" class ="form-control" asp-items="ViewBag.UsersId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlansId" class="control-label">Elegir Plan</label>
+                 <select asp-for="PlansId" class ="form-control" asp-items="ViewBag.PlansId" id="plansSelect"></select>
+            </div>
+             <div class="form-group">
+                <label class="control-label">Monto</label>
+                <span id="planAmount">$0</span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentMethodId" class="control-label">Seleccionar Método de Pago</label>
+                <select asp-for="PaymentMethodId" class ="form-control" asp-items="ViewBag.PaymentMethodId"></select>
+             </div>
+             <div class="form-group">
+                <label asp-for= "CardNumber"  class="control-label">Ingrese número de Tarjeta</label>
+                <input type=number class ="form-control"></input>
+             </div>
+                          <div class="form-group">
+                <label asp-for="ExpirationDate" class="control-label">Ingrese fecha vencimiento de su Tarjeta </label>
+                <input type=month class ="form-control" id="Fecha" ></input>
+             </div>
+            <div class="form-group">
+                <label asp-for="SecurityCode"  class="control-label">Ingrese código de seguridad </label>
+                <input type=number class ="form-control"></input>
+             </div>
+
+                 <div class="form-group">
+                <input type="submit" value="Pagar" class="btn btn-primary"/>
+                </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Volver al listado</a>
+</div>
+@section Scripts {
+    <script>
+      document.getElementById('plansSelect').addEventListener('change', function () {
+            var planId = this.value;
+
+            if (planId) {
+                fetch(`/Payment/GetPlanAmount?planId=${planId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('planAmount').textContent = '$' + data.monto;
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            }
+        });
+
+    </script>
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
