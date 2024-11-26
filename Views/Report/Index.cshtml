@@ -3,8 +3,19 @@
 <head>
     <link rel="stylesheet" href="/css/reporte.css">
 </head>
-<div>
-    <h2>Generar Reporte Mensual</h2>
-    <button onclick="location.href='@Url.Action("ClassesReport", "Report")'">Reporte de Clases</button>
-</div>
 
+<div class="container">
+    <h1 class="text-center mb-4">Generar Reporte Mensual</h1>
+
+    <div class="card shadow-sm border-0 p-4">
+        <h3 class="text-center mb-3">Opciones de Reporte</h3>
+
+        <div class="d-flex justify-content-around">
+            <button 
+                onclick="location.href='@Url.Action("ClassesReport", "Report")'" 
+                class="btn btn-outline-light btn-bold rounded-pill">
+                Reporte de Clases
+            </button>
+        </div>
+    </div>
+</div>
