@@ -24,8 +24,6 @@ namespace Sportify_back.Models
 
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
 
-         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

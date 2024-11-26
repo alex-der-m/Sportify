@@ -34,24 +34,46 @@ public class PaymentController : Controller
             return View(await sportifyDbContext.ToListAsync());
         }
 
-//Función para pasarle el modelo de datos a la vista          
-public IActionResult ModelAction()
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-{
-    var users = new ApplicationUser ();  
-    var PaymentMethod = new PaymentMethod();
-    var plans = new Plans();
-   
+            // Buscar el pago con el ID especificado, incluyendo las relaciones
+            var payment = await _context.Payments
+                .Include(p => p.ApplicationUser)      // Relación con usuario
+                .Include(p => p.Plans)               // Relación con plan
+                .Include(p => p.PaymentMethod)       // Relación con método de pago
+                .FirstOrDefaultAsync(m => m.Id == id);
 
+            if (payment == null)
+            {
+                return NotFound();
+            }
 
-    var viewModel = new Payments
-    {
-        ApplicationUser = users,
-        PaymentMethod = PaymentMethod,
-        Plans = plans
+            return View(payment);
+        }
 
+        //Función para pasarle el modelo de datos a la vista          
+        public IActionResult ModelAction()
+
+        {
+            var users = new ApplicationUser ();  
+            var PaymentMethod = new PaymentMethod();
+            var plans = new Plans();
         
-    };
+
+
+            var viewModel = new Payments
+            {
+                ApplicationUser = users,
+                PaymentMethod = PaymentMethod,
+                Plans = plans
+
+                
+            };
     
     return View(viewModel);
 
@@ -80,35 +102,39 @@ public IActionResult GetPlanAmount(int planId)
 
 
 
- [HttpPost]
- [ValidateAntiForgeryToken]
-//CrearPago
-public async Task<IActionResult> Create([Bind("Id,UsersId,PlansId,PaymentMethodId")] Payments payments)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //CrearPago
+        public async Task<IActionResult> Create([Bind("Id,UsersId,PlansId,PaymentMethodId,Fecha")] Payments payments)
         {
             if (ModelState.IsValid)
             {
+                payments.PaymentMethod = await _context.PaymentMethod
+                    .FirstOrDefaultAsync(pm => pm.Id == payments.PaymentMethodId);    
 
-                   payments.PaymentMethod = await _context.PaymentMethod
-            .FirstOrDefaultAsync(pm => pm.Id == payments.PaymentMethodId);    
+                if (payments.PaymentMethodId == 0)
+                {
+                    ModelState.AddModelError("PaymentMethodId", "Debe seleccionar un método de pago.");
+                    return View(payments);
+                }
 
-                  if (payments.PaymentMethodId == 0)
-        {
-            ModelState.AddModelError("PaymentMethodId", "Debe seleccionar un método de pago.");
+                // Si la fecha no está siendo enviada (puede ser opcional, dependiendo de tu lógica),
+                // puedes asignarla a la fecha actual si no se ha proporcionado.
+                payments.Fecha = DateTime.Now; // Asignar la fecha actual si no se proporcionó
+                
+
+                // Crear el pago y guardarlo en la base de datos
+                _context.Add(payments);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));    
+            }
+
+            ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethod, "Id", "Tipo", payments.PaymentMethodId);
+            ViewData["PlansId"] = new SelectList(_context.Plans, "Id", "Name", payments.PlansId);
+            ViewData["UsersId"] = new SelectList(_context.Users, "Id", "Name", payments.UsersId);
+
             return View(payments);
         }
 
-        // Crear el pago y guardarlo en la base de datos
-        _context.Add(payments);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));    
-
-            }
-           
-           ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethod, "Id", "Tipo",  payments.PaymentMethodId);
-            ViewData["PlansId"] = new SelectList(_context.Plans, "Id", "Name",  payments.PlansId);
-            ViewData["UsersId"] = new SelectList(_context.Users, "Id", "Name", payments.UsersId);
-            return View(payments);
-            }
-
-}
+    }
 }

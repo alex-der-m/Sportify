@@ -39,7 +39,7 @@ namespace Sportify_back.Models
         public int CardNumber { get; set; }
 
         [NotMapped]
-          public DateFormat ExpirationDate { get; set; }
+        public DateFormat ExpirationDate { get; set; }
 
         [NotMapped]
         public int SecurityCode { get; set; }
