@@ -80,10 +80,11 @@ namespace Sportify_Back.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            [Display(Name = "DNI")]
-            public string DNI { get; set; }
+            [DisplayFormat(DataFormatString = "{0:##.###.###}")]
+            [Range(10000000, 99999999, ErrorMessage = "El DNI debe tener exactamente 8 dígitos.")]
+            public int DNI { get; set; }
 
-            [Required]
+            //[Required]
             [Display(Name = "Document")]
             public IFormFile Document { get; set; }
 

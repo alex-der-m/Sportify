@@ -17,7 +17,7 @@ namespace Sportify_Back.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -212,9 +212,8 @@ namespace Sportify_Back.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DNI")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DNI")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("DocumentContent")
                         .HasColumnType("varbinary(max)");
@@ -385,60 +384,6 @@ namespace Sportify_Back.Migrations
                     b.ToTable("Licenses");
                 });
 
-            modelBuilder.Entity("Sportify_back.Models.PaymentMethod", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("IdPaymentMethod");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Detalle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentMethod");
-                });
-
-            modelBuilder.Entity("Sportify_back.Models.Payments", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PaymentMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlansId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PaymentMethodId");
-
-                    b.HasIndex("PlansId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("Sportify_back.Models.Plans", b =>
                 {
                     b.Property<int>("Id")
@@ -454,9 +399,6 @@ namespace Sportify_Back.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Monto")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -675,33 +617,6 @@ namespace Sportify_Back.Migrations
                     b.Navigation("Teachers");
                 });
 
-            modelBuilder.Entity("Sportify_back.Models.Payments", b =>
-                {
-                    b.HasOne("Sportify_back.Models.PaymentMethod", "PaymentMethod")
-                        .WithMany("Payments")
-                        .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sportify_back.Models.Plans", "Plans")
-                        .WithMany("Payments")
-                        .HasForeignKey("PlansId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Sportify_Back.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("PaymentMethod");
-
-                    b.Navigation("Plans");
-                });
-
             modelBuilder.Entity("Sportify_back.Models.Teachers", b =>
                 {
                     b.HasOne("Sportify_back.Models.Activities", "Activities")
@@ -720,15 +635,8 @@ namespace Sportify_Back.Migrations
                     b.Navigation("Teachers");
                 });
 
-            modelBuilder.Entity("Sportify_back.Models.PaymentMethod", b =>
-                {
-                    b.Navigation("Payments");
-                });
-
             modelBuilder.Entity("Sportify_back.Models.Plans", b =>
                 {
-                    b.Navigation("Payments");
-
                     b.Navigation("Users");
                 });
 
