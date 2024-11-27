@@ -14,6 +14,7 @@ public class PaymentMethod
 {
     [Column("IdPaymentMethod")]
     public int Id { get; set; }
+    [Display(Name = "Método De Pago")]
     public string Tipo { get; set; } 
     public string Detalle { get; set; } 
 
