@@ -35,6 +35,7 @@ namespace Sportify_back.Models
         [Display(Name ="Dirección")]
         public string Address { get; set; }
 
+        [Display(Name ="Actividad")]
         public Activities? Activities { get; set; } 
 
         [Display(Name ="Actividades")]
