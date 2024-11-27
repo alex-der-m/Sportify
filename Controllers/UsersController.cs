@@ -5,6 +5,7 @@ using Sportify_Back.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Claims;
 
 namespace Sportify_Back.Controllers
 {
@@ -110,7 +111,18 @@ namespace Sportify_Back.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction(nameof(Index));
+                        var userRole = User.FindFirstValue("Profile");
+
+                        if (userRole == "Administrador")
+                        {
+                            // Redirigir al Index del controlador Users si es Administrador
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            // Redirigir al Index del controlador Home si no es Administrador
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
@@ -120,10 +132,15 @@ namespace Sportify_Back.Controllers
                         }
                     }
                 }
+                else
+                {
+                    return NotFound();
+                }
             }
 
             return View(user);
         }
+
 
     }
 }

@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model Sportify_Back.Models.ApplicationUser
 
 @{
@@ -58,7 +59,13 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary rounded-pill me-2">
         Editar
     </a>
-    <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">
-        Volver al listado
-    </a>
+    @if (User.FindFirstValue("Profile") == "Administrador")
+    {
+        <a asp-action="Index" asp-controller="Users" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light btn-bold rounded-pill">Volver a inicio</a>
+    }
 </div>
+
