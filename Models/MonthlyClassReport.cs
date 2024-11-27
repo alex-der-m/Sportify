@@ -6,5 +6,6 @@ public class MonthlyClassReport
     public int TotalQuota { get; set; } // Suma de cupos
     public double AverageQuota { get; set; } // Promedio de cupos
     public int TopTeacherId { get; set; } // ID del profesor con más clases
+    public string TopTeacherName { get; set; }
 }
 
