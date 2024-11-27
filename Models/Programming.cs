@@ -17,12 +17,6 @@ namespace Sportify_back.Models
         [Column("IdProgramming")]
         public int Id { get; set; }
 
-        [Required]
-        public ICollection<ApplicationUser> Users { get; set; }
-
-        [Required]
-        public ICollection<Classes> Classes { get; set; }
-
         public bool Active { get; set; }       
 
     }

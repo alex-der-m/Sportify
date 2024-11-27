@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
 }
 @{
@@ -83,78 +83,100 @@ function ocultarQR() {
 }
 
         $(document).ready(function() {
-    $.ajax({
-        url: '/Home/GetActivities',
-        method: 'GET',
-        success: function(data) {
-            renderActivities(data);
-        },
-        error: function(error) {
-            console.error("Error al obtener actividades:", error);
-        }
-    });
+            $.ajax({
+                url: '/Home/GetActivities',
+                method: 'GET',
+                success: function(data) {
+                    renderActivities(data);
+                },
+                error: function(error) {
+                    console.error("Error al obtener actividades:", error);
+                }
+            });
 
-    function renderActivities(activities) {
-        const container = $("#activityContainer");
+            function renderActivities(activities) {
+                const container = $("#activityContainer");
+                container.empty(); // Limpiar antes de agregar actividades
 
-        activities.forEach(activity => {
-            const card = `
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow-lg h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${activity.title}</h5>
-                            <p class="card-text"><img class="small-icon" src="/images/calendar.png" alt="Icono de Fecha"> Fecha: ${activity.date}</p>
-                            <p class="card-text"><img class="small-icon" src="/images/24.png"> Día: ${activity.day}</p>
-                            <p class="card-text"><img class="small-icon" src="/images/clock.png"> Hora: ${activity.time}</p>
-                            <p class="card-text"><img class="small-icon" src="/images/teacher.png"> Profesor: ${activity.teacher}</p>
-                            <p class="card-text"><img class="small-icon" src="/images/quota.png"> Cupo: ${activity.cupo}</p>
-                            <div class="text-center mt-3">
-                                <button class="btn btn-primary btn-inscribirse" data-id="${activity.id}">Inscribirse</button>
+                activities.forEach(activity => {
+                    const card = `
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-lg h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${activity.title}</h5>
+                                    <p class="card-text"><img class="small-icon" src="/images/calendar.png" alt="Icono de Fecha"> Fecha: ${activity.date}</p>
+                                    <p class="card-text"><img class="small-icon" src="/images/24.png"> Día: ${activity.day}</p>
+                                    <p class="card-text"><img class="small-icon" src="/images/clock.png"> Hora: ${activity.time}</p>
+                                    <p class="card-text"><img class="small-icon" src="/images/teacher.png"> Profesor: ${activity.teacher}</p>
+                                    <p class="card-text"><img class="small-icon" src="/images/quota.png"> Cupo: <span class="quota" data-id="${activity.classId}">${activity.cupo}</span></p>
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-primary btn-inscribirse" data-id="${activity.classId}">Inscribirse</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            `;
-            container.append(card);
-        });
+                    `;
+                    container.append(card);
+                });
 
-        $(".btn-inscribirse").on("click", function() {
-            const activityId = $(this).data("id");
-            inscribirse(activityId);
-        });
-    }
-
-    function inscribirse(activityId) {
-        if (!validarReserva()) {
-        alert("No se puede realizar la reserva. Verifica que tienes la cuota al día, cupo disponible y apto cargado.");
-        return;
+                // Manejar la inscripción al hacer clic en el botón "Inscribirse"
+                $(".btn-inscribirse").on("click", function() {
+                    const classId = $(this).data("id");
+                    inscribirse(classId);
+                });
             }
-            const codigoQR = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=AccesoClase_${activityId}&amp;size=200x200" alt="Código de acceso" title="Acceso Clase" />`;
-            $("#qrContainer").html(codigoQR); 
-            $("#prueba").show(); 
-        }
 
-    function validarReserva() {
-        var cuotaAlDia = verificarCuota();
-        var cupoDisponible = verificarCupo();
-        var aptoCargado = verificarApto();
-        
-       // return cuotaAlDia && cupoDisponible && aptoCargado;
-       return true;
-    }
-//TODO Logica de las funciones de abajo
-    function verificarCuota() {
-        return true; 
-    }
+            // Función para inscribirse en la clase
+            function inscribirse(classId) {
+                if (!validarReserva()) {
+                    alert("No se puede realizar la reserva. Verifica que tienes la cuota al día, cupo disponible y apto cargado.");
+                    return;
+                }
 
-    function verificarCupo() {
-        return true; 
-    }
+                // Enviar solicitud al backend para realizar la inscripción
+                $.ajax({
+                    url: '/Home/Inscribirse',  
+                    method: 'POST',
+                    data: { classId: classId },
+                    success: function(response) {
+                        alert(response.message); 
+                        // Actualizar el cupo en la tarjeta correspondiente
+                        const cupoElement = $(`.quota[data-id="${classId}"]`);
+                        const currentCupo = parseInt(cupoElement.text(), 10);
+                        if (!isNaN(currentCupo) && currentCupo > 0) {
+                            cupoElement.text(currentCupo - 1); // Resta uno al cupo actual
+                        }
+                        const codigoQR = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=AccesoClase_${classId}&size=200x200" alt="Código de acceso" title="Acceso Clase" />`;
+                        $("#qrContainer").html(codigoQR); 
+                        $("#prueba").show(); 
+                    },
+                    error: function(xhr) {
+                        const errorMessage = xhr.responseJSON?.message || "Error al inscribirse.";
+                        alert(errorMessage); // Mensaje de error
+                    }
+                });
+            }
 
-    function verificarApto() {
-        return true; 
-    }
-});
+            function validarReserva() {
+                var cuotaAlDia = verificarCuota();
+                var cupoDisponible = verificarCupo();
+                var aptoCargado = verificarApto();
+                
+                return cuotaAlDia && cupoDisponible && aptoCargado;
+            }
 
+            // Funciones de validación (puedes implementar estas lógicas)
+            function verificarCuota() {
+                return true; // Agregar lógica de validación aquí
+            }
+
+            function verificarCupo() {
+                return true; // Agregar lógica de validación aquí
+            }
+
+            function verificarApto() {
+                return true; // Agregar lógica de validación aquí
+            }
+        });
     </script>
 }

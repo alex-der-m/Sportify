@@ -24,6 +24,8 @@ namespace Sportify_back.Models
 
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
 
+        public DbSet<ProgrammingUsers> ProgrammingUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -44,9 +46,19 @@ namespace Sportify_back.Models
         .HasOne(up => up.ApplicationUser)
         .WithMany()  // o .WithOne() dependiendo de la relación
         .HasForeignKey(up => up.UsersId)
-        .HasPrincipalKey(au => au.Id); 
+        .HasPrincipalKey(au => au.Id);
 
+            modelBuilder.Entity<ProgrammingUsers>()
+                .HasOne(pu => pu.User)
+                .WithMany()
+                .HasForeignKey(pu => pu.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ProgrammingUsers>()
+                .HasOne(pu => pu.Class)
+                .WithMany()
+                .HasForeignKey(pu => pu.ClassId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

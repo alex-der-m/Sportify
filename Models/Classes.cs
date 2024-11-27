@@ -12,7 +12,7 @@ namespace Sportify_back.Models
 {
     public class Classes
     {
-
+        [Key]
         [Column("IdClasses")]
         public int Id { get; set; }
 
@@ -20,12 +20,13 @@ namespace Sportify_back.Models
         [Display(Name = "Nombre")]
         public string Name { get; set; }
 
-        [Display(Name = "Actividades")]
-        public Activities? Activities { get; set; }
-
         [ForeignKey("Activities")]
         [Display(Name = "Actividades")]
         public int  ActivityId { get; set; }
+
+        [ForeignKey("ActivityId")]
+        [Display(Name = "Actividades")]
+        public Activities? Activities { get; set; }
 
         [Required (ErrorMessage= "Debe indicar un día y horario de la clase")]
         [Display(Name = "Fecha")]
@@ -35,6 +36,7 @@ namespace Sportify_back.Models
         public Teachers? Teachers { get; set; }
 
         [Display(Name ="Profesores")]
+        [ForeignKey("TeachersId")]
         public int  TeachersId { get; set; }
 
         public List<Programmings>? Programmings { get; set; } = new List<Programmings>();

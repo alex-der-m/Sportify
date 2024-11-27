@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Historial de Turnos";
+}
+
+<div class="container my-4">
+    <h2>Historial de Turnos</h2>
+    <div id="userClassesHistoryContainer" class="row">
+        <!-- Aquí se agregarán dinámicamente las tarjetas de los turnos -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Llamada AJAX para obtener el historial de clases del usuario
+            $.ajax({
+                url: '/Home/GetUserClassesHistory', // Endpoint en tu controlador para historial
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        renderUserClassesHistory(response.data);
+                    } else {
+                        alert(response.message || "Error al cargar el historial de turnos.");
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseJSON?.message || "Error al obtener el historial de turnos.";
+                    alert(errorMessage);
+                }
+            });
+
+            // Función para renderizar las clases del historial en el contenedor
+            function renderUserClassesHistory(classes) {
+                const container = $("#userClassesHistoryContainer");
+                container.empty(); // Limpiar el contenedor antes de agregar los datos
+
+                if (classes.length === 0) {
+                    container.append(`<p>No tienes historial de turnos.</p>`);
+                    return;
+                }
+
+                // Crear tarjetas para cada clase
+                classes.forEach(cls => {
+                    const card = `
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-lg h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${cls.title}</h5> <!-- Cambié Title a title -->
+                                    <p class="card-text">Fecha: ${cls.date}</p> <!-- Cambié Date a date -->
+                                    <p class="card-text">Hora: ${cls.time}</p> <!-- Cambié Time a time -->
+                                    <p class="card-text">Profesor: ${cls.teacher}</p> <!-- Cambié Teacher a teacher -->
+                                    <p class="card-text">Inscripción realizada el: ${cls.date}</p> <!-- Cambié Date a date -->
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.append(card);
+                });
+            }
+        });
+    </script>
+}
