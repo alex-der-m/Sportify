@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
 
 @{
     var isAdmin = User.HasClaim("Profile", "Administrador");
@@ -35,7 +36,7 @@
                         {
                             <li class="nav-item dropdown ms-2">
                                 <div class="btn-group dropdown">
-                                    <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "UsuarioFinal")">
+                                    <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Details", "Users", new {id = User.FindFirstValue(ClaimTypes.NameIdentifier)})">
                                         <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
                                     </a>
                                     <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,8 +46,7 @@
                                         <li><a class="dropdown-item text-white" href="@Url.Action("MisProximosTurnos", "Home")" style="font-weight: 500;">Gestión de Turnos</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("HistorialTurnos", "Home")" style="font-weight: 500;">Historial de Turnos</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Suscripción</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Plans")" style="font-weight: 500;">Seleccionar Plan</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Edit", "Users")" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Edit", "Users", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" style="font-weight: 500;">Cargar Apto Médico</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Ver Actividades</a></li>
 
                                         </ul>
