@@ -13,6 +13,8 @@
     <title>@ViewData["Title"] - Sportify_Back</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="~/images/sportify-.png" />
 </head>
 <body class=" flex-column min-vh-100 background-container">
     <header>
@@ -164,8 +166,8 @@
                 </div>
                 <div class="col-md-6 text-center mb-3 mb-md-0">
                     <a href="@Url.Action("Index", "Home")" class="text-white mx-2">Home</a> |
-                    <a href="@Url.Action("About", "Home")" class="text-white mx-2">Sobre nosotros</a> |
-                    <a href="@Url.Action("Contact", "Home")" class="text-white mx-2">Contacto</a>
+                    <a href="@Url.Action("SobreNosotros", "Home")" class="text-white mx-2">Sobre nosotros</a> |
+                    <a href="@Url.Action("Contacto", "Home")" class="text-white mx-2">Contacto</a>
                 </div>
                 <div class="col-md-3 text-center text-md-right">
                     <a href="#" class="text-white mx-2">
@@ -181,7 +183,7 @@
             </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <a href="@Url.Action("Terms", "Home")" class="text-white mx-2 max-height: 30px;">Términos y condiciones</a>
+                    <a href="@Url.Action("TerminosCondiciones", "Home")" class="text-white mx-2 max-height: 30px;">Términos y condiciones</a>
                 </div>
             </div>
         </div>
