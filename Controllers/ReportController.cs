@@ -25,5 +25,12 @@ public IActionResult ClassesReport()
     return View("ReportView", monthlyReports); //le paso el modelo a la vista
 }
 
+[HttpGet]
+public IActionResult GetTopClasses()
+{
+    var report = _reportService.GetClassesWithMostUsers();
+    return View("ReportMoreConcurrence", report);
+}
+
 
 }

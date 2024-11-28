@@ -53,5 +53,45 @@ public class EntityReportService : IEntityReportService
 
         return finalReport;
     }
-   
+
+    public IEnumerable<ClassConcurrenceReport> GetClassesWithMostUsers()
+    {
+        // Agrupar por clases y contar la concurrencia
+        var report = _context.ProgrammingUsers
+            .GroupBy(pu => pu.ClassId) 
+            .Select(group => new
+            {
+                ClassId = group.Key,
+                UserCount = group.Count() 
+            })
+            .OrderByDescending(r => r.UserCount) // Ordenar por mayor concurrencia
+            .Take(10) //Tomo 10 nomas
+            .ToList();
+
+            var classData = _context.Classes
+                .Where(c => report.Select(r => r.ClassId).Contains(c.Id))
+                .Select(c => new
+                {
+                    c.Id,
+                    ClassName = c.Name,
+                    ActivityName = c.Activities.NameActivity,
+                    ProfesorName = c.Teachers.Name
+                })
+                .ToList();
+
+            var classDictionary = classData.ToDictionary(c => c.Id, c => new { c.ClassName, c.ActivityName, c.ProfesorName });
+
+
+            var finalReport = report.Select(r => new ClassConcurrenceReport
+            {
+                ClassId = r.ClassId,
+                ClassName = classDictionary.ContainsKey(r.ClassId) ? classDictionary[r.ClassId].ClassName : "Clase desconocida",
+                ActivityName = classDictionary.ContainsKey(r.ClassId) ? classDictionary[r.ClassId].ActivityName : "Actividad desconocida",
+                ProfesorName = classDictionary.ContainsKey(r.ClassId) ? classDictionary[r.ClassId].ProfesorName : "Profesor desconocido",
+                UserCount = r.UserCount
+            }).ToList();
+
+            return finalReport;
+            }
+
 }
