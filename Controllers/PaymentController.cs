@@ -28,6 +28,7 @@ public class PaymentController : Controller
         // GET: Pagos
         public async Task<IActionResult> Index()
         {
+
             // Obtén el perfil del usuario desde los claims
             var profile = User.FindFirstValue("Profile");
 
@@ -56,8 +57,6 @@ public class PaymentController : Controller
 
             return View(await paymentsQuery.ToListAsync());
         }
-
-
 
         public async Task<IActionResult> Details(int? id)
         {

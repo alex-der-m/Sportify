@@ -67,6 +67,20 @@ public class HomeController : Controller
     return View(); 
     }
 
+    public IActionResult TerminosCondiciones()
+    {
+        return View();
+    }
+    public IActionResult SobreNosotros()
+    {
+        return View();
+    }
+
+    public IActionResult Contacto()
+    {
+        return View();
+    }
+
 
     public IActionResult Privacy()
     {
