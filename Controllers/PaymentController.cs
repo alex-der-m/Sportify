@@ -28,21 +28,35 @@ public class PaymentController : Controller
         // GET: Pagos
         public async Task<IActionResult> Index()
         {
+
+            // Obtén el perfil del usuario desde los claims
+            var profile = User.FindFirstValue("Profile");
+
             // Obtén el ID del usuario autenticado
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Filtra los pagos relacionados con el usuario actual usando la clave foránea UsersId
-            var sportifyDbContext = _context.Payments
-                .Where(p => p.UsersId == userId) // Filtra por UsersId
-                .Include(p => p.ApplicationUser) // Incluye la relación con ApplicationUser
-                .Include(p => p.Plans)           // Incluye la relación con Plans
-                .Include(p => p.PaymentMethod);  // Incluye la relación con PaymentMethod
+            IQueryable<Payments> paymentsQuery;
 
-            return View(await sportifyDbContext.ToListAsync());
+            if (profile == "Administrador")
+            {
+                // Si es Administrador, mostrar todos los movimientos
+                paymentsQuery = _context.Payments
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+            else
+            {
+                // Si no es Administrador, mostrar solo los movimientos del usuario actual
+                paymentsQuery = _context.Payments
+                    .Where(p => p.UsersId == userId)
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+
+            return View(await paymentsQuery.ToListAsync());
         }
-
-
-
 
         public async Task<IActionResult> Details(int? id)
         {
