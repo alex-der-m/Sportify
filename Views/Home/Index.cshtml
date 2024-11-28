@@ -118,8 +118,6 @@ function ocultarQR() {
                     `;
                     container.append(card);
                 });
-
-                // Manejar la inscripción al hacer clic en el botón "Inscribirse"
                 $(".btn-inscribirse").on("click", function() {
                     const classId = $(this).data("id");
                     inscribirse(classId);
@@ -152,30 +150,61 @@ function ocultarQR() {
                     },
                     error: function(xhr) {
                         const errorMessage = xhr.responseJSON?.message || "Error al inscribirse.";
-                        alert(errorMessage); // Mensaje de error
+                        alert(errorMessage);
                     }
                 });
             }
 
             function validarReserva() {
                 var cuotaAlDia = verificarCuota();
-                var cupoDisponible = verificarCupo();
                 var aptoCargado = verificarApto();
                 
-                return cuotaAlDia && cupoDisponible && aptoCargado;
+                return cuotaAlDia && aptoCargado;
             }
 
             // Funciones de validación (puedes implementar estas lógicas)
             function verificarCuota() {
-                return true; // Agregar lógica de validación aquí
-            }
-
-            function verificarCupo() {
-                return true; // Agregar lógica de validación aquí
+                $.ajax({
+                    url: '/Home/GetUserPayment',  
+                    method: 'GET',
+                    async: false, 
+                    success: function(response) {
+                        if (response.success) {
+                            console.log("Pago realizado: " + response.message);
+                            pagoValido = true; 
+                        } else {
+                            alert(response.message);  
+                            pagoValido = false;
+                        }
+                    },
+                    error: function() {
+                        alert("Hubo un error al verificar el pago.");
+                        pagoValido = false;
+                    }
+                });
+                return pagoValido;
             }
 
             function verificarApto() {
-                return true; // Agregar lógica de validación aquí
+                $.ajax({
+                    url: '/Home/GetUserApto',  
+                    method: 'GET',
+                    async: false, 
+                    success: function(response) {
+                        if (response.success) {
+                            console.log("Condicion:" + response.message);
+                            aptoValido = true; 
+                        } else {
+                            alert(response.message);  
+                            aptoValido = false;
+                        }
+                    },
+                    error: function() {
+                        alert("Hubo un error al verificar el apto cargado.");
+                        aptoValido = false;
+                    }
+                });
+                return aptoValido;
             }
         });
     </script>

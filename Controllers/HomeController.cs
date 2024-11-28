@@ -112,6 +112,66 @@ public class HomeController : Controller
 
         return Json(activities);
     }
+    [HttpGet]
+    public JsonResult GetUserApto(){
+        var userId = GetUserId();
+        if (userId == null) return Json(new { success = false, message = "Usuario no autenticado." });
+
+        var user = _context.Users
+        .Where(p => p.Id == userId)
+        .FirstOrDefault();
+
+        bool tieneDocumento = user.DocumentContent != null && user.DocumentContent.Length > 0;
+
+        if (tieneDocumento)
+        {
+            return Json(new { success = true, message = "Documento cargado correctamente." });
+        }
+        else
+        {
+            return Json(new { success = false, message = "No se ha cargado ningún documento." });
+        }
+    }
+
+    [HttpGet]
+    public JsonResult GetUserPayment(){
+        var userId = GetUserId();
+        if (userId == null) return Json(new { success = false, message = "Usuario no autenticado." });
+
+        var ultimoPago = _context.Payments
+        .Where(p => p.UsersId == userId)
+        .OrderByDescending(p => p.Fecha)
+        .FirstOrDefault();
+
+        if (ultimoPago.Fecha.HasValue)
+        {
+            var fechaUltimoPago = ultimoPago.Fecha.Value;
+            
+            var fechaActual = DateTime.Now;
+            bool pagoEnMesActual = fechaUltimoPago.Month == fechaActual.Month && fechaUltimoPago.Year == fechaActual.Year;
+
+            if (pagoEnMesActual)
+            {
+                return Json(new { success = true, message = "Pago realizado este mes.", fechaPago = fechaUltimoPago });
+            }
+            else
+            {
+                int mesUltimoPago = fechaUltimoPago.Month;
+                int anioUltimoPago = fechaUltimoPago.Year;
+
+                var nombreMes = new DateTime(anioUltimoPago, mesUltimoPago, 1).ToString("MMMM yyyy");
+
+                return Json(new { 
+                    success = false, 
+                    message = $"El último pago fue realizado en {nombreMes}. El pago no está al día." 
+                });
+            }
+        }
+        else
+        {
+            return Json(new { success = false, message = "No se encontró información sobre el pago." });
+        }
+    }
 
     [HttpGet]
     public JsonResult GetUserClasses()
