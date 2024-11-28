@@ -1,10 +1,14 @@
+@using System.Security.Claims
 @model IEnumerable<Sportify_back.Models.Payments>
 
 @{
     ViewData["Title"] = "Index";
+    string profile = User.FindFirstValue("Profile"); // Obtén el perfil del usuario
+    bool isAdmin = profile == "Administrador"; // Verifica si es Administrador
 }
 
 <h1 class="text-center mb-4">Listado de Pagos</h1>
+
 
 <p>
     <a asp-action="Create" class="btn btn-outline-light">Crear nuevo Pago</a>
@@ -13,7 +17,10 @@
 <table class="table-custom">
     <thead>
         <tr>
-            <th>Alumno</th>
+            @if (isAdmin)
+            {
+                <th>Alumno</th> <!-- Solo visible para Administradores -->
+            }
             <th>Plan</th>
             <th>Método de Pago</th>
             <th>Monto</th>
@@ -22,21 +29,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
-            <td>@Html.DisplayFor(modelItem => item.Plans.Name)</td>
-            <td>@Html.DisplayFor(modelItem => item.PaymentMethod.Tipo)</td>
-            <td>@Html.DisplayFor(modelItem => item.Plans.Monto)</td>
-            <td>@item.Fecha</td>
-            <td>
-                <div class="action-buttons">
-                    <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
-                        <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
-                    </a>
-                </div>
-            </td>
-        </tr>
+@foreach (var item in Model)
+{
+    <tr>
+        @if (isAdmin)
+        {
+            <td>@(item.ApplicationUser?.Name ?? "Sin asignar")</td> <!-- Solo visible para Administradores -->
+        }
+        <td>@(item.Plans?.Name ?? "Sin plan")</td>
+        <td>@(item.PaymentMethod?.Tipo ?? "Sin método")</td>
+        <td>@(item.Plans?.Monto ?? 0)</td>
+        <td>@(item.Fecha?.ToString("dd/MM/yyyy") ?? "Sin fecha")</td>
+        <td>
+            <div class="action-buttons">
+                <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
+                    <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
+                </a>
+            </div>
+        </td>
+    </tr>
 }
     </tbody>
 </table>

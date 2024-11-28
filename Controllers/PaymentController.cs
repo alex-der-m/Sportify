@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using System.Data.SqlClient;
 using Sportify_Back.Models;
+using System.Security.Claims;
 
 
 namespace Sportify_Back.Controllers
@@ -27,12 +28,36 @@ public class PaymentController : Controller
         // GET: Pagos
         public async Task<IActionResult> Index()
         {
-            var sportifyDbContext = _context.Payments
-                .Include(u => u.ApplicationUser)
-                .Include(u => u.Plans)
-                .Include(u=>u.PaymentMethod);
-            return View(await sportifyDbContext.ToListAsync());
+            // Obtén el perfil del usuario desde los claims
+            var profile = User.FindFirstValue("Profile");
+
+            // Obtén el ID del usuario autenticado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            IQueryable<Payments> paymentsQuery;
+
+            if (profile == "Administrador")
+            {
+                // Si es Administrador, mostrar todos los movimientos
+                paymentsQuery = _context.Payments
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+            else
+            {
+                // Si no es Administrador, mostrar solo los movimientos del usuario actual
+                paymentsQuery = _context.Payments
+                    .Where(p => p.UsersId == userId)
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+
+            return View(await paymentsQuery.ToListAsync());
         }
+
+
 
         public async Task<IActionResult> Details(int? id)
         {
