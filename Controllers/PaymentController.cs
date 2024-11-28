@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using System.Data.SqlClient;
 using Sportify_Back.Models;
+using System.Security.Claims;
 
 
 namespace Sportify_Back.Controllers
@@ -27,12 +28,21 @@ public class PaymentController : Controller
         // GET: Pagos
         public async Task<IActionResult> Index()
         {
+            // Obtén el ID del usuario autenticado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Filtra los pagos relacionados con el usuario actual usando la clave foránea UsersId
             var sportifyDbContext = _context.Payments
-                .Include(u => u.ApplicationUser)
-                .Include(u => u.Plans)
-                .Include(u=>u.PaymentMethod);
+                .Where(p => p.UsersId == userId) // Filtra por UsersId
+                .Include(p => p.ApplicationUser) // Incluye la relación con ApplicationUser
+                .Include(p => p.Plans)           // Incluye la relación con Plans
+                .Include(p => p.PaymentMethod);  // Incluye la relación con PaymentMethod
+
             return View(await sportifyDbContext.ToListAsync());
         }
+
+
+
 
         public async Task<IActionResult> Details(int? id)
         {
