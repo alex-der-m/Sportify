@@ -3,9 +3,9 @@
 }
 
 <div class="container my-4">
-    <h2>Historial de Turnos</h2>
-    <div id="userClassesHistoryContainer" class="row">
-        <!-- Aquí se agregarán dinámicamente las tarjetas de los turnos -->
+    <h2 class="text-center mb-4 text-white">Historial de Turnos</h2>
+    <div id="userClassesHistoryContainer">
+        <!-- Aquí se generará dinámicamente la tabla del historial -->
     </div>
 </div>
 
@@ -29,34 +29,45 @@
                 }
             });
 
-            // Función para renderizar las clases del historial en el contenedor
+            // Función para renderizar el historial en formato de tabla
             function renderUserClassesHistory(classes) {
                 const container = $("#userClassesHistoryContainer");
                 container.empty(); // Limpiar el contenedor antes de agregar los datos
 
                 if (classes.length === 0) {
-                    container.append(`<p>No tienes historial de turnos.</p>`);
+                    container.append(`<p class="text-center text-muted">No tienes historial de turnos.</p>`);
                     return;
                 }
 
-                // Crear tarjetas para cada clase
-                classes.forEach(cls => {
-                    const card = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card shadow-lg h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${cls.title}</h5> <!-- Cambié Title a title -->
-                                    <p class="card-text">Fecha: ${cls.date}</p> <!-- Cambié Date a date -->
-                                    <p class="card-text">Hora: ${cls.time}</p> <!-- Cambié Time a time -->
-                                    <p class="card-text">Profesor: ${cls.teacher}</p> <!-- Cambié Teacher a teacher -->
-                                    <p class="card-text">Inscripción realizada el: ${cls.date}</p> <!-- Cambié Date a date -->
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.append(card);
-                });
+                // Crear tabla
+                const table = `
+                    <div>
+                        <table class="table-custom">
+                            <thead >
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Profesor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${classes.map(cls => `
+                                    <tr>
+                                        <td>${cls.title}</td>
+                                        <td>${cls.date}</td>
+                                        <td>${cls.time}</td>
+                                        <td>${cls.teacher}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.append(table);
             }
         });
     </script>
 }
+
+
