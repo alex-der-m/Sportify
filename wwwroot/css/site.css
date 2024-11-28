@@ -158,13 +158,21 @@ textarea.textarea-field {
   max-height: 70px;
 }
 
+.social-icon-wrapper {
+  display: inline-block; 
+  margin-right: 20px; 
+}
+
+.social-icon-wrapper:last-child {
+  margin-right: 0; 
+}
+
 .social-icon {
   max-height: 30px;
 }
 
 .footer-bg {
   background-color: #222e37;
-  --bs-bg-opacity: 1;
 }
 
 /* Fondo y sombra */
@@ -858,6 +866,51 @@ h1 {
     font-size: 0.9rem;
   }
 }
+
+
+/*Footer prueba*/
+.custom-footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  position: relative;
+  padding: 0 10px;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-link:hover {
+  color: #266286; /* Color verde tipo Spotify */
+}
+
+.separator {
+  color: #ffffff;
+  font-size: 18px;
+  padding: 0 5px;
+}
+
+/* Efecto animado de subrayado */
+.footer-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #266286;
+  transition: width 0.3s ease-in-out;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
 
 
 
