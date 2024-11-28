@@ -16,7 +16,7 @@ En este repositorio se encuentra el proyecto correspondiente al sistema integral
 <a name="general-info"></a>
 ## Informacion General 
 ***
-La aplicación perteneciente al sistema de gestion de turnos "Sportify" tiene como objetivo la gestión de turnos y  nomina de profesores/alumnos para uso de gimnasios (desde sus datos personales hasta la asignación de clases, profesores y salones para las actividades.  El proyecto se encuentra aun aun en proceso de desarrollo pero ya cuenta con ABM donde se puede crear, editar, observar detalle y eliminar registros, una funcionalidad de autenticacion y registro de usuarios llegando hasta el desarrollo de una funcionalidad de gestion de turnos para el uso de las salas del gimnasio. 
+La aplicación perteneciente al sistema de gestion de turnos "Sportify" tiene como objetivo la gestión de turnos y nomina de profesores/alumnos para uso de gimnasios (desde sus datos personales hasta la asignación de clases, profesores y salones para las actividades). El proyecto se encuentra aun en proceso de desarrollo pero ya cuenta con ABM'S donde se puede crear, editar, observar detalle y eliminar registros, una funcionalidad de autenticacion y registro de usuarios, llegando hasta el desarrollo de una funcionalidad de gestion de turnos para el uso de las salas de gimnasios. 
 ### Menu principal
 
 ## Estado del Proyecto 🚧 
