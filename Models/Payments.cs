@@ -45,4 +45,4 @@ namespace Sportify_back.Models
         public int SecurityCode { get; set; }
 
     }
-    }
+}
