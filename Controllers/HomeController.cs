@@ -131,7 +131,7 @@ public class HomeController : Controller
         {
             return Json(new { success = false, message = "No se ha cargado ningún documento." });
         }
-    }
+        }
 
     [HttpGet]
     public JsonResult GetUserPayment(){
@@ -314,4 +314,47 @@ public class HomeController : Controller
     }
 
     
+    [HttpPost]
+    public async Task<IActionResult> CancelarReserva(int classId)
+    {
+        try
+        {
+            // Verificar si el usuario está autenticado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            // Buscar la inscripción en la clase para el usuario
+            var programmingUser = await _context.ProgrammingUsers
+                .FirstOrDefaultAsync(pu => pu.UserId == userId && pu.ClassId == classId);
+
+            if (programmingUser == null)
+            {
+                return BadRequest(new { message = "No estás inscrito en esta clase." });
+            }
+
+            // Eliminar la inscripción del usuario en la clase
+            _context.ProgrammingUsers.Remove(programmingUser);
+
+            // Buscar la clase para actualizar el cupo
+            var selectedClass = await _context.Classes
+                .FirstOrDefaultAsync(c => c.Id == classId && c.Active);
+
+            if (selectedClass == null)
+            {
+                return BadRequest(new { message = "Clase no encontrada o no disponible." });
+            }
+
+            // Aumentar el cupo de la clase
+            selectedClass.Quota += 1;
+
+            // Guardar los cambios en la base de datos
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, message = "Reserva cancelada y cupo actualizado con éxito." });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Ocurrió un error al cancelar la reserva.", error = ex.Message });
+        }
     }
+}
