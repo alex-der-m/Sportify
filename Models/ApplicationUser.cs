@@ -13,6 +13,8 @@ namespace Sportify_Back.Models
     {
     [Display(Name = "Nombre")]
     public string Name { get; set; }
+    
+    [Display(Name = "Apellido")]
     public string LastName { get; set; }
     
     [DisplayFormat(DataFormatString = "{0:##.###.###}")]
