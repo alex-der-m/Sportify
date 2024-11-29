@@ -357,4 +357,51 @@ public class HomeController : Controller
             return Json(new { success = false, message = "Ocurrió un error al cancelar la reserva.", error = ex.Message });
         }
     }
+
+
+    [HttpGet]
+    public JsonResult SearchClasses(string searchQuery, DateTime? fromDate, DateTime? toDate)
+    {
+        try
+        {
+            var query = _context.Classes
+                .Where(c => c.Active);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(c => c.Activities.NameActivity.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            
+
+            if (fromDate.HasValue)
+            {
+                query = query.Where(c => c.Sched.Date >= fromDate.Value.Date);  // Usando .Date para comparar solo la fecha
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(c => c.Sched.Date <= toDate.Value.Date);  // Usando .Date para comparar solo la fecha
+            }
+
+            var activities = query
+                .Select(c => new
+                {
+                    ClassId = c.Id,
+                    Title = c.Activities.NameActivity,
+                    Date = c.Sched.ToString("dd/MM/yyyy"),
+                    Day = c.Sched.DayOfWeek.ToString(),
+                    Time = c.Sched.ToString("HH:mm"),
+                    Teacher = c.Teachers.Name,
+                    Cupo = c.Quota
+                })
+                .ToList();
+
+            return Json(activities);
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Ocurrió un error al realizar la búsqueda.", error = ex.Message });
+        }
+    }
 }
