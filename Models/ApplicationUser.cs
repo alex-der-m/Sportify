@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Sportify_back.Models;
 
 namespace Sportify_Back.Models
 {
@@ -23,6 +24,9 @@ namespace Sportify_Back.Models
     public IFormFile? Document { get; set; }
     public string? DocumentName { get; set; }
     public byte[]? DocumentContent { get; set; }
+
+    public int? PlansId { get; set; }
+    public Plans Plans { get; set; }
 
     
     }

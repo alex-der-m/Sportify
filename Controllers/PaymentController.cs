@@ -158,8 +158,17 @@ public IActionResult GetPlanAmount(int planId)
                 // Crear el pago y guardarlo en la base de datos
                 _context.Add(payments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));    
-            }
+                // Actualizar el PlanId del usuario en la tabla AspNetUsers
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == payments.UsersId);
+                if (user != null)
+                {
+                    user.PlansId = payments.PlansId;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Index));  
+                }
 
             ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethod, "Id", "Tipo", payments.PaymentMethodId);
             ViewData["PlansId"] = new SelectList(_context.Plans, "Id", "Name", payments.PlansId);

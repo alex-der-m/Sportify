@@ -246,8 +246,6 @@ public class HomeController : Controller
         }
     }
 
-
-
     [HttpPost]
     public async Task<IActionResult> Inscribirse(int classId)
     {
@@ -281,13 +279,6 @@ public class HomeController : Controller
             return BadRequest(new { message = "Ya estás inscrito en esta clase." });
         }
 
-        _context.ProgrammingUsers.Add(new ProgrammingUsers
-        {
-            UserId = userId,
-            ClassId = classId,
-            InscriptionDate = DateTime.Now
-        }); 
-
         var user = await _context.Users
                         .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -295,6 +286,34 @@ public class HomeController : Controller
         {
             return BadRequest(new { message = "Usuario no encontrado." });
         }
+
+        var userPlanType = user.PlansId;
+
+          // Validar el límite de clases mensuales si el plan es de tipo 1
+        if (userPlanType == 1){
+        var targetMonth = selectedClass.Sched.Month;
+        var targetYear = selectedClass.Sched.Year;
+
+            var enrolledClassesCount = await _context.ProgrammingUsers
+                .Include(pu => pu.Class)
+                .Where(pu => pu.UserId == userId &&
+                            pu.Class.Sched.Year == targetYear &&
+                            pu.Class.Sched.Month == targetMonth)
+                .CountAsync();
+
+            if (enrolledClassesCount >= 5)
+            {
+                return BadRequest(new { message = "Has alcanzado el límite de 5 clases para este mes con tu plan actual." });
+            }
+        }
+
+        // Inscribir al usuario
+        _context.ProgrammingUsers.Add(new ProgrammingUsers
+        {
+            UserId = userId,
+            ClassId = classId,
+            InscriptionDate = DateTime.Now
+        });
         
 
         selectedClass.Quota -= 1;
@@ -312,6 +331,7 @@ public class HomeController : Controller
     });
     }
     }
+
 
     
     [HttpPost]

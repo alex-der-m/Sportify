@@ -26,9 +26,18 @@ namespace Sportify_back.Models
 
         public DbSet<ProgrammingUsers> ProgrammingUsers { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>()
+            .HasOne(u => u.Plans)               // Un usuario tiene un plan
+            .WithMany(p => p.Users)             // Un plan puede tener muchos usuarios
+            .HasForeignKey(u => u.PlansId)      // Clave externa en ApplicationUser
+            .OnDelete(DeleteBehavior.SetNull);  // Si el plan se elimina, los usuarios no se borran.
+
 
             modelBuilder.Entity<Classes>()
                 .HasOne(c => c.Teachers)
