@@ -19,7 +19,7 @@
     <tbody>
         @foreach (var user in Model)
         {
-            <tr>
+            <tr id="user-@user.Email">
                 <td>@Html.DisplayFor(modelItem => user.Name) @Html.DisplayFor(modelItem => user.LastName)</td>
                 <td>@Html.DisplayFor(modelItem => user.Email)</td>
                 <td>@Html.DisplayFor(modelItem => user.DNI)</td>
