@@ -1,4 +1,4 @@
-using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,13 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using Sportify_back.Models;
 using System.Data.SqlClient;
 using Sportify_Back.Models;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
+using System.Security.Claims;
+using QuestPDF.Helpers;
 
 
 namespace Sportify_Back.Controllers
 {
 public class PaymentController : Controller
 {
-
          private readonly SportifyDbContext _context;    
 
         public PaymentController(SportifyDbContext context)
@@ -91,10 +94,10 @@ public IActionResult GetPlanAmount(int planId)
     return Json(new { success = true, monto =plans.Monto});
 }
 
-
+//GET: Crear pago
         public IActionResult Create()
         {
-            var currentUserId = User.Identity.Name; // O usar otro método para obtener el ID del usuario actual
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // ID del usuario actual
 
             // Encontrar el usuario actual en la base de datos (suponiendo que 'User' es de tipo ApplicationUser)
             var currentUser = _context.Users.FirstOrDefault(u => u.UserName == currentUserId); // O usar 'Id' si es más apropiado
@@ -118,7 +121,7 @@ public IActionResult GetPlanAmount(int planId)
             if (ModelState.IsValid)
             {
                 payments.PaymentMethod = await _context.PaymentMethod
-                    .FirstOrDefaultAsync(pm => pm.Id == payments.PaymentMethodId);    
+                    .FirstOrDefaultAsync(pm => pm.Id == payments.PaymentMethodId);
 
                 if (payments.PaymentMethodId == 0)
                 {
@@ -144,5 +147,62 @@ public IActionResult GetPlanAmount(int planId)
             return View(payments);
         }
 
+        //GET: descargar comprobante de pago como PDF
+        public IActionResult DownloadReceipt(int id)
+        {
+            var payment = _context.Payments
+                .Include(p => p.ApplicationUser)
+                .Include(p => p.Plans)
+                .Include(p => p.PaymentMethod)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (payment == null)
+            {
+                return NotFound("El pago no existe.");
+            }
+
+            // Validar permisos: el usuario actual o un administrador puede descargar
+            if (!User.IsInRole("Admin") && payment.UsersId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return Forbid("No tienes permiso para descargar este comprobante.");
+            }
+
+            var document = CreateReceiptDocument(payment);
+
+            var pdfStream = new MemoryStream();
+            document.GeneratePdf(pdfStream);
+            pdfStream.Position = 0;
+
+            return File(pdfStream, "application/pdf", $"ComprobantePago-{payment.Id}.pdf");
+        }
+
+        // Método auxiliar para crear el documento del comprobante
+        private Document CreateReceiptDocument(Payments payment)
+        {
+            return Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(2, Unit.Centimetre);
+                    page.DefaultTextStyle(x => x.FontSize(12));
+
+                    page.Content().Column(column =>
+                    {
+                        column.Spacing(20);
+
+                        // Encabezado
+                        column.Item().Text("Comprobante de Pago").Bold().FontSize(20).AlignCenter();
+
+                        // Información del pago
+                        column.Item().Text($"Fecha: {payment.Fecha:dd/MM/yyyy}");
+                        column.Item().Text($"Usuario: {payment.ApplicationUser.Name} {payment.ApplicationUser.LastName}");
+                        column.Item().Text($"Plan: {payment.Plans.Name}");
+                        column.Item().Text($"Método de Pago: {payment.PaymentMethod.Tipo}");
+                        column.Item().Text($"Monto: ${payment.Plans.Monto:F2}");
+                    });
+                });
+            });
+        }
     }
 }
