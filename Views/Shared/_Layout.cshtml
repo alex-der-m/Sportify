@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
 
 @{
     var isAdmin = User.HasClaim("Profile", "Administrador");
@@ -10,9 +11,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sportify_Back</title>
+    <title>@ViewData["Title"] - Sportify Solutions</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="~/images/sportify-.png" />
 </head>
 <body class=" flex-column min-vh-100 background-container">
     <header>
@@ -33,7 +36,7 @@
                         {
                             <li class="nav-item dropdown ms-2">
                                 <div class="btn-group dropdown">
-                                    <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "UsuarioFinal")">
+                                    <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Details", "Users", new {id = User.FindFirstValue(ClaimTypes.NameIdentifier)})">
                                         <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
                                     </a>
                                     <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,8 +46,7 @@
                                         <li><a class="dropdown-item text-white" href="@Url.Action("MisProximosTurnos", "Home")" style="font-weight: 500;">Gestión de Turnos</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("HistorialTurnos", "Home")" style="font-weight: 500;">Historial de Turnos</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Suscripción</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Plans")" style="font-weight: 500;">Seleccionar Plan</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Edit", "Users")" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Edit", "Users", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" style="font-weight: 500;">Cargar Apto Médico</a></li>
                                         <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Ver Actividades</a></li>
 
                                         </ul>
@@ -162,26 +164,34 @@
                 <div class="col-md-3 text-center text-md-left mb-3 mb-md-0">
                     <img src="~/images/sportify-.png" alt="Sportify Solutions" class="footer-logo">
                 </div>
-                <div class="col-md-6 text-center mb-3 mb-md-0">
-                    <a href="@Url.Action("Index", "Home")" class="text-white mx-2">Home</a> |
-                    <a href="@Url.Action("About", "Home")" class="text-white mx-2">Sobre nosotros</a> |
-                    <a href="@Url.Action("Contact", "Home")" class="text-white mx-2">Contacto</a>
+                <div class="col-md-6 text-center mb-3 mb-md-0 custom-footer-links">
+                    <a href="@Url.Action("Index", "Home")" class="footer-link">Home</a>
+                    <span class="separator">•</span>
+                    <a href="@Url.Action("SobreNosotros", "Home")" class="footer-link">Sobre nosotros</a>
+                    <span class="separator">•</span>
+                    <a href="@Url.Action("Contacto", "Home")" class="footer-link">Contacto</a>
                 </div>
                 <div class="col-md-3 text-center text-md-right">
-                    <a href="#" class="text-white mx-2">
+                <span class="social-icon-wrapper">
+                    <a href="https://www.facebook.com/profile.php?id=61569202845286" target="_blank">
                         <img src="~/images/facebook.png" alt="Facebook" class="social-icon">
                     </a>
-                    <a href="#" class="text-white mx-2">
+                </span>
+                <span class="social-icon-wrapper">
+                    <a href="https://www.instagram.com/sportifys2024/" target="_blank">
                         <img src="~/images/instagram.png" alt="Instagram" class="social-icon">
                     </a>
-                    <a href="#" class="text-white mx-2">
+                </span>
+                <span class="social-icon-wrapper">
+                    <a href="https://x.com/Sportify_s" target="_blank">
                         <img src="~/images/twitter.png" alt="Twitter" class="social-icon">
                     </a>
+                </span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <a href="@Url.Action("Terms", "Home")" class="text-white mx-2 max-height: 30px;">Términos y condiciones</a>
+                    <a href="@Url.Action("TerminosCondiciones", "Home")" class="footer-link">Términos y condiciones</a>
                 </div>
             </div>
         </div>

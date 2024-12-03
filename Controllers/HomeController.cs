@@ -67,6 +67,20 @@ public class HomeController : Controller
     return View(); 
     }
 
+    public IActionResult TerminosCondiciones()
+    {
+        return View();
+    }
+    public IActionResult SobreNosotros()
+    {
+        return View();
+    }
+
+    public IActionResult Contacto()
+    {
+        return View();
+    }
+
 
     public IActionResult Privacy()
     {
@@ -97,6 +111,66 @@ public class HomeController : Controller
             .ToList();
 
         return Json(activities);
+    }
+    [HttpGet]
+    public JsonResult GetUserApto(){
+        var userId = GetUserId();
+        if (userId == null) return Json(new { success = false, message = "Usuario no autenticado." });
+
+        var user = _context.Users
+        .Where(p => p.Id == userId)
+        .FirstOrDefault();
+
+        bool tieneDocumento = user.DocumentContent != null && user.DocumentContent.Length > 0;
+
+        if (tieneDocumento)
+        {
+            return Json(new { success = true, message = "Documento cargado correctamente." });
+        }
+        else
+        {
+            return Json(new { success = false, message = "No se ha cargado ningún documento." });
+        }
+        }
+
+    [HttpGet]
+    public JsonResult GetUserPayment(){
+        var userId = GetUserId();
+        if (userId == null) return Json(new { success = false, message = "Usuario no autenticado." });
+
+        var ultimoPago = _context.Payments
+        .Where(p => p.UsersId == userId)
+        .OrderByDescending(p => p.Fecha)
+        .FirstOrDefault();
+
+        if (ultimoPago.Fecha.HasValue)
+        {
+            var fechaUltimoPago = ultimoPago.Fecha.Value;
+            
+            var fechaActual = DateTime.Now;
+            bool pagoEnMesActual = fechaUltimoPago.Month == fechaActual.Month && fechaUltimoPago.Year == fechaActual.Year;
+
+            if (pagoEnMesActual)
+            {
+                return Json(new { success = true, message = "Pago realizado este mes.", fechaPago = fechaUltimoPago });
+            }
+            else
+            {
+                int mesUltimoPago = fechaUltimoPago.Month;
+                int anioUltimoPago = fechaUltimoPago.Year;
+
+                var nombreMes = new DateTime(anioUltimoPago, mesUltimoPago, 1).ToString("MMMM yyyy");
+
+                return Json(new { 
+                    success = false, 
+                    message = $"El último pago fue realizado en {nombreMes}. El pago no está al día." 
+                });
+            }
+        }
+        else
+        {
+            return Json(new { success = false, message = "No se encontró información sobre el pago." });
+        }
     }
 
     [HttpGet]
@@ -172,8 +246,6 @@ public class HomeController : Controller
         }
     }
 
-
-
     [HttpPost]
     public async Task<IActionResult> Inscribirse(int classId)
     {
@@ -207,13 +279,6 @@ public class HomeController : Controller
             return BadRequest(new { message = "Ya estás inscrito en esta clase." });
         }
 
-        _context.ProgrammingUsers.Add(new ProgrammingUsers
-        {
-            UserId = userId,
-            ClassId = classId,
-            InscriptionDate = DateTime.Now
-        }); 
-
         var user = await _context.Users
                         .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -221,6 +286,34 @@ public class HomeController : Controller
         {
             return BadRequest(new { message = "Usuario no encontrado." });
         }
+
+        var userPlanType = user.PlansId;
+
+          // Validar el límite de clases mensuales si el plan es de tipo 1
+        if (userPlanType == 1){
+        var targetMonth = selectedClass.Sched.Month;
+        var targetYear = selectedClass.Sched.Year;
+
+            var enrolledClassesCount = await _context.ProgrammingUsers
+                .Include(pu => pu.Class)
+                .Where(pu => pu.UserId == userId &&
+                            pu.Class.Sched.Year == targetYear &&
+                            pu.Class.Sched.Month == targetMonth)
+                .CountAsync();
+
+            if (enrolledClassesCount >= 5)
+            {
+                return BadRequest(new { message = "Has alcanzado el límite de 5 clases para este mes con tu plan actual." });
+            }
+        }
+
+        // Inscribir al usuario
+        _context.ProgrammingUsers.Add(new ProgrammingUsers
+        {
+            UserId = userId,
+            ClassId = classId,
+            InscriptionDate = DateTime.Now
+        });
         
 
         selectedClass.Quota -= 1;
@@ -239,5 +332,96 @@ public class HomeController : Controller
     }
     }
 
+
     
+    [HttpPost]
+    public async Task<IActionResult> CancelarReserva(int classId)
+    {
+        try
+        {
+            // Verificar si el usuario está autenticado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            // Buscar la inscripción en la clase para el usuario
+            var programmingUser = await _context.ProgrammingUsers
+                .FirstOrDefaultAsync(pu => pu.UserId == userId && pu.ClassId == classId);
+
+            if (programmingUser == null)
+            {
+                return BadRequest(new { message = "No estás inscrito en esta clase." });
+            }
+
+            // Eliminar la inscripción del usuario en la clase
+            _context.ProgrammingUsers.Remove(programmingUser);
+
+            // Buscar la clase para actualizar el cupo
+            var selectedClass = await _context.Classes
+                .FirstOrDefaultAsync(c => c.Id == classId && c.Active);
+
+            if (selectedClass == null)
+            {
+                return BadRequest(new { message = "Clase no encontrada o no disponible." });
+            }
+
+            // Aumentar el cupo de la clase
+            selectedClass.Quota += 1;
+
+            // Guardar los cambios en la base de datos
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, message = "Reserva cancelada y cupo actualizado con éxito." });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Ocurrió un error al cancelar la reserva.", error = ex.Message });
+        }
     }
+
+
+    [HttpGet]
+    public JsonResult SearchClasses(string searchQuery, DateTime? fromDate, DateTime? toDate)
+    {
+        try
+        {
+            var query = _context.Classes
+                .Where(c => c.Active);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(c => c.Activities.NameActivity.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            
+
+            if (fromDate.HasValue)
+            {
+                query = query.Where(c => c.Sched.Date >= fromDate.Value.Date);  // Usando .Date para comparar solo la fecha
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(c => c.Sched.Date <= toDate.Value.Date);  // Usando .Date para comparar solo la fecha
+            }
+
+            var activities = query
+                .Select(c => new
+                {
+                    ClassId = c.Id,
+                    Title = c.Activities.NameActivity,
+                    Date = c.Sched.ToString("dd/MM/yyyy"),
+                    Day = c.Sched.DayOfWeek.ToString(),
+                    Time = c.Sched.ToString("HH:mm"),
+                    Teacher = c.Teachers.Name,
+                    Cupo = c.Quota
+                })
+                .ToList();
+
+            return Json(activities);
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Ocurrió un error al realizar la búsqueda.", error = ex.Message });
+        }
+    }
+}

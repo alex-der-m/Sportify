@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model Sportify_back.Models.Activities
 
 @{
@@ -14,19 +15,19 @@
                     <dt class="col-sm-4 card-text">
                         <i class="fas fa-book"></i> Nombre
                     </dt>
-                    <dd class = "col-sm-8 card-text">
+                    <dd class="col-sm-8 card-text">
                         @Html.DisplayFor(model => model.NameActivity)
                     </dd>
                     <dt class="col-sm-4 card-text">
                         <i class="fas fa-list"></i> Descripción
                     </dt>
-                    <dd class = "col-sm-8 card-text">
+                    <dd class="col-sm-8 card-text">
                         @Html.DisplayFor(model => model.Description)
                     </dd>
                     <dt class="col-sm-4 card-text">
                         <i class="fas fa-toggle-on"></i> Activa
                     </dt>
-                    <dd class = "col-sm-8 card-text">
+                    <dd class="col-sm-8 card-text">
                         @Html.DisplayFor(model => model.Active)
                     </dd>
                 </dl>
@@ -34,11 +35,18 @@
         </div>
     </div>
 </div>
+
 <div class="text-center mt-4">
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary rounded-pill me-2">
-        Editar
-    </a>
+    <!-- Mostrar el botón de "Editar" solo si el usuario es Administrador -->
+    @if (User.FindFirstValue("Profile") == "Administrador")
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary rounded-pill me-2">
+            Editar
+        </a>
+    }
+    
+    <!-- Botón de "Volver al listado" visible para todos los usuarios -->
     <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">
-    Volver al listado
+        Volver al listado
     </a>
 </div>

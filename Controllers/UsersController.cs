@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Security.Claims;
+using Sportify_back.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sportify_Back.Controllers
 {
@@ -13,11 +15,13 @@ namespace Sportify_Back.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SportifyDbContext _context;
 
         // Constructor único para la inyección de dependencias
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(UserManager<ApplicationUser> userManager, SportifyDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
 
 
@@ -83,19 +87,37 @@ namespace Sportify_Back.Controllers
         [Route("Users/Edit/{id}")]
         public async Task<IActionResult> Edit(ApplicationUser user)
         {
+
+            ModelState.Remove(nameof(ApplicationUser.Plans));
+
             if (ModelState.IsValid)
             {
+                
+                Console.WriteLine($"Recibido: {user.Name}, {user.LastName}, {user.DNI}, {user.PlansId}");
                 // Buscar el usuario existente por su ID
                 var existingUser = await _userManager.FindByIdAsync(user.Id);
-                
+
                 if (existingUser != null)
                 {
-                    // Asignar los campos Name, LastName, y DNI
+                    // Obtener el PlanId actual del usuario desde la base de datos
+                    var planId = await _context.Users
+                        .Where(u => u.Id == user.Id)
+                        .Select(u => u.PlansId)
+                        .FirstOrDefaultAsync();
+
+                    // Opcional: Puedes usar el PlanId en alguna lógica o mostrarlo
+                    if (planId != null)
+                    {
+                        // Asignar el PlanId al usuario si se requiere
+                        existingUser.PlansId = planId;
+                    }
+
+                    // Actualizar los campos editables
                     existingUser.Name = user.Name;
                     existingUser.LastName = user.LastName;
                     existingUser.DNI = user.DNI;
 
-                    // Si se cargó un documento médico, procesarlo
+                    // Procesar el documento médico si se cargó
                     if (user.Document != null && user.Document.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
@@ -115,12 +137,10 @@ namespace Sportify_Back.Controllers
 
                         if (userRole == "Administrador")
                         {
-                            // Redirigir al Index del controlador Users si es Administrador
                             return RedirectToAction(nameof(Index));
                         }
                         else
                         {
-                            // Redirigir al Index del controlador Home si no es Administrador
                             return RedirectToAction("Index", "Home");
                         }
                     }

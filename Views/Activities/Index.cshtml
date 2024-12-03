@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model IEnumerable<Sportify_back.Models.Activities>
 
 @{
@@ -5,10 +6,13 @@
 }
 
 <h1>Listado de actividades</h1>
+@if (User.FindFirstValue("Profile") == "Administrador")
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-outline-light">Crear nueva Actividad</a>
+        </p>
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-light">Crear nueva Actividad</a>
-</p>
 <table class="table-custom">
     <thead>
         <tr>
@@ -25,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NameActivity)
@@ -40,14 +44,18 @@
                 <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
                     <img src="~/images/search.png" class="small-icon" alt="Icono de detalle"> Detalle
                 </a>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="action-link edit-link">
-                    <img src="~/images/edit.png" class="small-icon" alt="Icono de editar"> Editar
-                </a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="action-link delete-link">
-                    <img src="~/images/bin.png" class="small-icon" alt="Icono de eliminar"> Eliminar
-                </a>
+
+                @if (User.FindFirstValue("Profile") == "Administrador")
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="action-link edit-link">
+                        <img src="~/images/edit.png" class="small-icon" alt="Icono de editar"> Editar
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="action-link delete-link">
+                        <img src="~/images/bin.png" class="small-icon" alt="Icono de eliminar"> Eliminar
+                    </a>
+                }
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

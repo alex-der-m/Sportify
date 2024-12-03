@@ -15,6 +15,7 @@ using System.Security.Claims;
 using QuestPDF.Helpers;
 
 
+
 namespace Sportify_Back.Controllers
 {
 public class PaymentController : Controller
@@ -30,11 +31,34 @@ public class PaymentController : Controller
         // GET: Pagos
         public async Task<IActionResult> Index()
         {
-            var sportifyDbContext = _context.Payments
-                .Include(u => u.ApplicationUser)
-                .Include(u => u.Plans)
-                .Include(u=>u.PaymentMethod);
-            return View(await sportifyDbContext.ToListAsync());
+
+            // Obtén el perfil del usuario desde los claims
+            var profile = User.FindFirstValue("Profile");
+
+            // Obtén el ID del usuario autenticado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            IQueryable<Payments> paymentsQuery;
+
+            if (profile == "Administrador")
+            {
+                // Si es Administrador, mostrar todos los movimientos
+                paymentsQuery = _context.Payments
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+            else
+            {
+                // Si no es Administrador, mostrar solo los movimientos del usuario actual
+                paymentsQuery = _context.Payments
+                    .Where(p => p.UsersId == userId)
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.Plans)
+                    .Include(p => p.PaymentMethod);
+            }
+
+            return View(await paymentsQuery.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -137,8 +161,17 @@ public IActionResult GetPlanAmount(int planId)
                 // Crear el pago y guardarlo en la base de datos
                 _context.Add(payments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));    
-            }
+                // Actualizar el PlanId del usuario en la tabla AspNetUsers
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == payments.UsersId);
+                if (user != null)
+                {
+                    user.PlansId = payments.PlansId;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Index));  
+                }
 
             ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethod, "Id", "Tipo", payments.PaymentMethodId);
             ViewData["PlansId"] = new SelectList(_context.Plans, "Id", "Name", payments.PlansId);
