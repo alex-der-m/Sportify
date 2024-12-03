@@ -25,31 +25,28 @@
             <th>Método de Pago</th>
             <th>Monto</th>
             <th>Fecha de Pago</th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-
-@foreach (var item in Model)
-{
-    <tr>
-        @if (isAdmin)
-        {
-            <td>@(item.ApplicationUser?.Name ?? "Sin asignar")</td> <!-- Solo visible para Administradores -->
-        }
-        <td>@(item.Plans?.Name ?? "Sin plan")</td>
-        <td>@(item.PaymentMethod?.Tipo ?? "Sin método")</td>
-        <td>@(item.Plans?.Monto ?? 0)</td>
-        <td>@(item.Fecha?.ToString("dd/MM/yyyy") ?? "Sin fecha")</td>
-        <td>
-            <div class="action-buttons">
-                <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
-                    <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
-                </a>
-            </div>
-        </td>
-    </tr>
-
+@foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Plans.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.PaymentMethod.Tipo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Plans.Monto)</td>
+            <td>@item.Fecha</td>
+            <td>
+                <div class="action-buttons">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
+                        <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
+                    </a>
+                    <a asp-action="DownloadReceipt" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                        Descargar Comprobante
+                    </a>
+                </div>
+            </td>
+        </tr>
 }
     </tbody>
 </table>

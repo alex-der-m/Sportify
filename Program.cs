@@ -6,7 +6,9 @@ using Sportify_back.Identity;
 using Sportify_Back.Areas.Identity.Data;
 using Sportify_Back.Models;
 using Sportify_Back.Services;
+using QuestPDF;
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,3 +83,4 @@ catch (Exception ex)
     Console.WriteLine(ex.StackTrace);
     throw;
 }
+
