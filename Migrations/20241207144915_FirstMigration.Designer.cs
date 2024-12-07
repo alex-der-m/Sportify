@@ -12,8 +12,8 @@ using Sportify_back.Models;
 namespace Sportify_Back.Migrations
 {
     [DbContext(typeof(SportifyDbContext))]
-    [Migration("20241202140001_migracionNueva")]
-    partial class migracionNueva
+    [Migration("20241207144915_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -661,13 +661,16 @@ namespace Sportify_Back.Migrations
 
             modelBuilder.Entity("Sportify_Back.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Sportify_back.Models.Plans", null)
+                    b.HasOne("Sportify_back.Models.Plans", "Plans")
                         .WithMany("Users")
-                        .HasForeignKey("PlansId");
+                        .HasForeignKey("PlansId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Sportify_back.Models.Profiles", null)
                         .WithMany("Users")
                         .HasForeignKey("ProfilesId");
+
+                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Classes", b =>
