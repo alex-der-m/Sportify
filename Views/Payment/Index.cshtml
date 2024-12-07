@@ -31,7 +31,10 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            @if (isAdmin)
+            {
             <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
+            }
             <td>@Html.DisplayFor(modelItem => item.Plans.Name)</td>
             <td>@Html.DisplayFor(modelItem => item.PaymentMethod.Tipo)</td>
             <td>@Html.DisplayFor(modelItem => item.Plans.Monto)</td>
@@ -41,7 +44,7 @@
                     <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
                         <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
                     </a>
-                    <a asp-action="DownloadReceipt" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                    <a asp-action="DownloadReceipt" asp-route-id="@item.Id" class="btn btn-primary rounded-pill me-2">
                         Descargar Comprobante
                     </a>
                 </div>
