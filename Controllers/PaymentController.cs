@@ -121,7 +121,7 @@ public IActionResult GetPlanAmount(int planId)
 //GET: Crear pago
         public IActionResult Create()
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // ID del usuario actual
+            var currentUserId = User.Identity.Name; // ID del usuario actual
 
             // Encontrar el usuario actual en la base de datos (suponiendo que 'User' es de tipo ApplicationUser)
             var currentUser = _context.Users.FirstOrDefault(u => u.UserName == currentUserId); // O usar 'Id' si es más apropiado
