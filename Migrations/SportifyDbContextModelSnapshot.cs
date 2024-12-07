@@ -658,13 +658,16 @@ namespace Sportify_Back.Migrations
 
             modelBuilder.Entity("Sportify_Back.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Sportify_back.Models.Plans", null)
+                    b.HasOne("Sportify_back.Models.Plans", "Plans")
                         .WithMany("Users")
-                        .HasForeignKey("PlansId");
+                        .HasForeignKey("PlansId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Sportify_back.Models.Profiles", null)
                         .WithMany("Users")
                         .HasForeignKey("ProfilesId");
+
+                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("Sportify_back.Models.Classes", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sportify_Back.Migrations
 {
     /// <inheritdoc />
-    public partial class miMigracion : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -203,7 +203,8 @@ namespace Sportify_Back.Migrations
                         name: "FK_AspNetUsers_Plans_PlansId",
                         column: x => x.PlansId,
                         principalTable: "Plans",
-                        principalColumn: "IdPlans");
+                        principalColumn: "IdPlans",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Profiles_ProfilesId",
                         column: x => x.ProfilesId,

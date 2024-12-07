@@ -19,7 +19,7 @@
 </head>
 <body class=" flex-column min-vh-100 background-container">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light shadow-sm py-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light shadow-sm py-3" style="background-color: #adb5bd;">
             <div class="container-fluid">
                 <a href="@Url.Action("Index", "Home")">
                     <img src="~/images/sportify-.png" alt="Sportify Solutions" style="max-height: 50px;" />
@@ -34,24 +34,23 @@
                         @* Opciones para "Usuario Final" *@
                         @if (isUsuarioFinal)
                         {
-                            <li class="nav-item dropdown ms-2">
-                                <div class="btn-group dropdown">
-                                    <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Details", "Users", new {id = User.FindFirstValue(ClaimTypes.NameIdentifier)})">
-                                        <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
-                                    </a>
-                                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu custom-bg text-white" aria-labelledby="usuarioDropdown">
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("MisProximosTurnos", "Home")" style="font-weight: 500;">Gestión de Turnos</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("HistorialTurnos", "Home")" style="font-weight: 500;">Historial de Turnos</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Suscripción</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Edit", "Users", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" style="font-weight: 500;">Cargar Apto Médico</a></li>
-                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Ver Actividades</a></li>
-
-                                        </ul>
-                                </div>
-                            </li>
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Details", "Users", new {id = User.FindFirstValue(ClaimTypes.NameIdentifier)})">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="usuarioDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("MisProximosTurnos", "Home")" style="font-weight: 500;">Gestión de Turnos</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("HistorialTurnos", "Home")" style="font-weight: 500;">Historial de Turnos</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Suscripción</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Edit", "Users", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Ver Actividades</a></li>
+                                </ul>
+                            </div>
+                        </li>
                         }
 
                         @* Opciones para "Administrador" *@
@@ -59,88 +58,88 @@
                         {
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Users")">
-                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Users")">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Users")" style="font-weight: 500;">Gestionar Usuarios</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Users")" style="font-weight: 500;">Gestionar Usuarios</a></li>
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Teachers")">
-                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Profesores
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Teachers")">
+                                    <img src="~/Images/teacher.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Profesores
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Teachers")" style="font-weight: 600;">Cargar nuevo Profesores</a></li>
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Teachers")" style="font-weight: 500;">Gestionar Profesores</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Teachers")" style="font-weight: 600;">Cargar nuevo Profesores</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Teachers")" style="font-weight: 500;">Gestionar Profesores</a></li>
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Classes")">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Classes")">
                                     <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Clases
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Classes")" style="font-weight: 600;">Cargar nuevo Clase</a></li>
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Classes")" style="font-weight: 500;">Gestionar Clases</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Classes")" style="font-weight: 600;">Cargar nuevo Clase</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Classes")" style="font-weight: 500;">Gestionar Clases</a></li>
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Report")">
-                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Reportes
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Report")">
+                                    <img src="~/Images/24.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Reportes
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Report")" style="font-weight: 500;">Gestionar Reportes</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Report")" style="font-weight: 500;">Gestionar Reportes</a></li>
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Activities")">
-                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Disciplinas
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Activities")">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Disciplinas
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Activities")" style="font-weight: 500;">Cargar nueva Actividad</a></li>
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Gestionar Actividades</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Activities")" style="font-weight: 500;">Cargar nueva Actividad</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Gestionar Actividades</a></li>
                                 </ul>
                             </div>
                         </li>
 
                         <li class="nav-item dropdown ms-2">
                             <div class="btn-group dropdown">
-                                <a class="btn btn-link text-white d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Payment")">
-                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Subscripciones
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Payment")">
+                                    <img src="~/Images/quota.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Subscripciones
                                 </a>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu custom-bg text-white" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Create", "Payment")" style="font-weight: 500;">Cargar nueva Subscripcion</a></li>
-                                    <li><a class="dropdown-item text-white" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Subscripciones</a></li>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Payment")" style="font-weight: 500;">Cargar nueva Subscripcion</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Subscripciones</a></li>
                                 </ul>
                             </div>
                         </li>
