@@ -3,8 +3,12 @@
 }
 @{
     var isAuthenticated = User.Identity.IsAuthenticated;
+    var isAdmin = User.HasClaim("Profile", "Administrador");
 }
 
+
+@if (!isAdmin)
+                        {
 <div id="classes-remaining-widget" class="floating-banner">
     <a>
         Clases disponibles para el mes en curso: <span id="remaining-classes">...</span> 
@@ -15,6 +19,7 @@
         <strong id="user-plan-text"></strong>
         <button class="close-banner" onclick="closeBanner('user-plan-info-container')">&times;</button>
 </div>
+}
 
 <div id="carouselClasses" class="carousel slide my-4" data-ride="carousel">
     <div class="carousel-inner">
