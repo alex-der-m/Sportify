@@ -911,6 +911,54 @@ h1 {
   width: 100%;
 }
 
+.close-banner {
+  background: transparent;
+  border: none;
+  color: #004085; /* Color similar al del banner */
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.close-banner:hover {
+  color: #dc3545; /* Rojo para el hover */
+  transform: scale(1.2); /* Efecto de agrandamiento */
+}
+
+.floating-banner, .floating-banner-plan {
+  position: fixed;
+  background-color: #e7f3ff;
+  color: #004085;
+  border: 1px solid #b8daff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  z-index: 1000;
+  font-size: 14px;
+  width: 200px;
+}
+
+.floating-banner a {
+  text-decoration: none; 
+  color: inherit; /* Hereda el color del banner */
+  font-weight: bold; 
+}
+
+#classes-remaining-widget {
+  top: 10%;
+  right: 10px;
+}
+
+#user-plan-info-container {
+  top: 10%;
+  left: 10px;
+}
+
 
 
 

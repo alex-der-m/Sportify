@@ -1,9 +1,20 @@
-﻿﻿@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 @{
-     var isAuthenticated = User.Identity.IsAuthenticated;
+    var isAuthenticated = User.Identity.IsAuthenticated;
 }
+
+<div id="classes-remaining-widget" class="floating-banner">
+    <a>
+        Clases disponibles para el mes en curso: <span id="remaining-classes">...</span> 
+    </a>
+    <button class="close-banner" onclick="closeBanner('classes-remaining-widget')">&times;</button>
+</div>
+<div id="user-plan-info-container" class="floating-banner-plan">
+        <strong id="user-plan-text"></strong>
+        <button class="close-banner" onclick="closeBanner('user-plan-info-container')">&times;</button>
+</div>
 
 <div id="carouselClasses" class="carousel slide my-4" data-ride="carousel">
     <div class="carousel-inner">
@@ -70,9 +81,18 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        //#CloseBanner
+    function closeBanner(bannerId) {
+    const banner = document.getElementById(bannerId);
+    if (banner) {
+        banner.style.display = 'none';
+    }
+}
         $(document).ready(function () {
     // Cargar actividades iniciales
     cargarActividades();
+    loadUserPlan();
 
     // Configurar el evento del botón de búsqueda
     $("#btnBuscar").on("click", function () {
@@ -100,6 +120,44 @@
             },
         });
     }
+
+    //#activityContainer
+    function loadUserPlan() {
+    $.ajax({
+        url: "/Home/GetUserPlan", // Cambia según el controlador y acción
+        method: "GET",
+        success: function (data) {
+            if (data.hasPlan) {
+                $("#user-plan-text").text(`Tu plan actual: ${data.planName}`);
+            } else {
+                $("#user-plan-text").text(data.planName);
+            }
+            $("#user-plan-info").show();
+        },
+        error: function () {
+            console.error("Error al obtener el plan del usuario.");
+        }
+    });
+}
+
+    function updateRemainingClasses() {
+        $.ajax({
+            url: "/Home/GetRemainingClasses", // Cambia la ruta según tu controlador
+            method: "GET",
+            success: function (data) {
+                if (data.showBanner) {
+                $("#classes-remaining-widget").show();
+                $("#remaining-classes").text(data.remainingClasses);
+            } else {
+                $("#classes-remaining-widget").hide();
+            }
+        },
+        error: function () {
+            $("#remaining-classes").text("Error");
+        },
+        });
+    }
+    updateRemainingClasses();
 
     // Función para realizar la búsqueda de actividades
     function realizarBusqueda() {
@@ -179,7 +237,7 @@
                     if (!isNaN(currentCupo) && currentCupo > 0) {
                         cupoElement.text(currentCupo - 1);
                     }
-
+                    updateRemainingClasses();
                     mostrarQR(classId);
                 }
             },

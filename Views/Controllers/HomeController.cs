@@ -143,6 +143,14 @@ public class HomeController : Controller
         .OrderByDescending(p => p.Fecha)
         .FirstOrDefault();
 
+        if (ultimoPago == null)
+        {
+            return Json(new {
+                success = false,
+                message = "No se encontraron pagos realizados. Por favor, realiza el pago para continuar."
+            });
+        }
+
         if (ultimoPago.Fecha.HasValue)
         {
             var fechaUltimoPago = ultimoPago.Fecha.Value;
@@ -424,4 +432,65 @@ public class HomeController : Controller
             return Json(new { success = false, message = "Ocurrió un error al realizar la búsqueda.", error = ex.Message });
         }
     }
+
+    public JsonResult GetRemainingClasses()
+    {
+        var userId = GetUserId();
+        var currentMonth = DateTime.Now.Month;
+        var currentYear = DateTime.Now.Year;
+
+
+        var ultimoPlan = _context.Payments
+        .Where(p => p.UsersId == userId)
+        .OrderByDescending(p => p.PlansId)
+        .FirstOrDefault();
+
+        if(ultimoPlan?.PlansId == 2){
+            return Json(new { showBanner = false });
+        }
+        else{
+            // Consulta las clases reservadas en el mes actual por el usuario
+        var totalReserved = _context.ProgrammingUsers
+            .Where(p => p.UserId == userId && p.InscriptionDate.Month == currentMonth && p.InscriptionDate.Year == currentYear)
+            .Count();
+
+        var maxClasses = 5; // Límite del plan básico
+        var remainingClasses = Math.Max(0, maxClasses - totalReserved);
+
+        return Json(new { showBanner = true, remainingClasses });
+        }
+    }
+
+    public JsonResult GetUserPlan()
+    {
+        var userId = GetUserId();
+
+        // Obtener el último plan activo del usuario
+        var ultimoPlan = _context.Payments
+            .Where(p => p.UsersId == userId)
+            .OrderByDescending(p => p.PlansId)
+            .FirstOrDefault();
+
+        if (ultimoPlan == null)
+        {
+            // Si no tiene plan activo
+            return Json(new { hasPlan = false, planName = "Sin plan vigente" });
+        }
+
+        // Obtener el nombre del plan
+        var planInfo = _context.Plans
+            .Where(p => p.Id == ultimoPlan.PlansId)
+            .Select(p => new { p.Name })
+            .FirstOrDefault();
+
+        if (planInfo == null)
+        {
+            // Caso raro donde no se encuentra el plan
+            return Json(new { hasPlan = false, planName = "Plan desconocido" });
+        }
+
+        // Devolver el nombre del plan
+        return Json(new { hasPlan = true, planName = planInfo.Name });
+    }
+
 }
