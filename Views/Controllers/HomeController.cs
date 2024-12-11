@@ -97,21 +97,36 @@ public class HomeController : Controller
     public JsonResult GetActivities()
     {
 
-        var activities = _context.Classes
-            .Where(a => a.Active)
-            .Select(a => new {
-                ClassId = a.Id,
-                Title = a.Activities.NameActivity,
-                Date = a.Sched.ToString("dd/MM/yyyy"),
-                Day = a.Sched.DayOfWeek.ToString(),
-                Time = a.Sched.ToString("HH:mm"),
-                Teacher = a.Teachers.Name,
-                Cupo = a.Quota
-            })
+        var today = DateTime.Now;
+
+        // Actualizar las clases pasadas como inactivas
+        var pastClasses = _context.Classes
+            .Where(c => c.Active && c.Sched < today)
             .ToList();
 
-        return Json(activities);
+        foreach (var pastClass in pastClasses)
+        {
+            pastClass.Active = false;
+        }
+        _context.SaveChanges();
+
+        // Obtener las clases activas a partir de hoy
+        var activities = _context.Classes
+        .Where(a => a.Active && a.Sched >= today)
+        .Select(a => new {
+            ClassId = a.Id,
+            Title = a.Activities.NameActivity,
+            Date = a.Sched.ToString("dd/MM/yyyy"),
+            Day = a.Sched.DayOfWeek.ToString(),
+            Time = a.Sched.ToString("HH:mm"),
+            Teacher = a.Teachers.Name,
+            Cupo = a.Quota
+        })
+        .ToList();
+
+    return Json(activities);
     }
+
     [HttpGet]
     public JsonResult GetUserApto(){
         var userId = GetUserId();
