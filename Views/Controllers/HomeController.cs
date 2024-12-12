@@ -108,6 +108,16 @@ public class HomeController : Controller
         {
             pastClass.Active = false;
         }
+
+        var classesWithNoQuota = _context.Classes
+        .Where(c => c.Active && c.Quota == 0)
+        .ToList();
+
+        foreach (var classWithNoQuota in classesWithNoQuota)
+        {
+            classWithNoQuota.Active = false;
+        }
+
         _context.SaveChanges();
 
         // Obtener las clases activas a partir de hoy
@@ -292,6 +302,15 @@ public class HomeController : Controller
         if (selectedClass == null || selectedClass.Quota <= 0)
         {
             return BadRequest(new { message = "La clase no está disponible o no tiene cupos." });
+        }
+
+        // Validación para evitar inscripciones en clases del mes siguiente
+        var currentDate = DateTime.Now;
+        if (selectedClass.Sched.Month > currentDate.Month &&
+            selectedClass.Sched.Year == currentDate.Year ||
+            selectedClass.Sched.Year > currentDate.Year)
+        {
+            return BadRequest(new { message = "No puedes inscribirte en clases del mes siguiente." });
         }
 
         var alreadyEnrolled = await _context.ProgrammingUsers
