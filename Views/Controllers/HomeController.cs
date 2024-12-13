@@ -480,6 +480,11 @@ public class HomeController : Controller
         .OrderByDescending(p => p.PlansId)
         .FirstOrDefault();
 
+         if (ultimoPlan == null)
+        {
+        return Json(new { showBanner = false, message = "No tienes un plan activo. Adquiere uno para acceder a clases." });
+        }
+
         if(ultimoPlan?.PlansId == 2){
             return Json(new { showBanner = false });
         }
@@ -492,8 +497,8 @@ public class HomeController : Controller
         var maxClasses = 5; // Límite del plan básico
         var remainingClasses = Math.Max(0, maxClasses - totalReserved);
 
-        return Json(new { showBanner = true, remainingClasses });
-        }
+        return Json(new { showBanner = true, remainingClasses});
+        }   
     }
 
     public JsonResult GetUserPlan()
