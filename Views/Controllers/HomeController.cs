@@ -432,7 +432,7 @@ public class HomeController : Controller
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(c => c.Activities.NameActivity.ToLower().Contains(searchQuery.ToLower()));
+                query = query.Where(c => c.Name.ToLower().Contains(searchQuery.ToLower()));
             }
 
             
@@ -451,7 +451,7 @@ public class HomeController : Controller
                 .Select(c => new
                 {
                     ClassId = c.Id,
-                    Title = c.Activities.NameActivity,
+                    Title = c.Name,
                     Date = c.Sched.ToString("dd/MM/yyyy"),
                     Day = c.Sched.DayOfWeek.ToString(),
                     Time = c.Sched.ToString("HH:mm"),
