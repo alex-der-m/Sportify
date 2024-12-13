@@ -123,9 +123,10 @@ public class HomeController : Controller
         // Obtener las clases activas a partir de hoy
         var activities = _context.Classes
         .Where(a => a.Active && a.Sched >= today)
+        .OrderBy(a => a.Sched)
         .Select(a => new {
             ClassId = a.Id,
-            Title = a.Activities.NameActivity,
+            Title = a.Name,
             Date = a.Sched.ToString("dd/MM/yyyy"),
             Day = a.Sched.DayOfWeek.ToString(),
             Time = a.Sched.ToString("HH:mm"),
